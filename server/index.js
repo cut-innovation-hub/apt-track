@@ -34,7 +34,7 @@ app.use((req, res, next) => {
   next(error);
 });
 
-//error hanlding middleware
+//error handling middleware
 app.use((error, req, res, next) => {
   const statusCode = res.statusCode === 200 ? 500 : res.statusCode;
   res.status(statusCode);

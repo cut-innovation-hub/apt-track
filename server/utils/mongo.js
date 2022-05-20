@@ -1,7 +1,10 @@
 const mongoose = require('mongoose')
 
-const LOCAL_DB = `mongodb://localhost:27017/meetA_DB`
+// mongodb url 
+const DB_NAME = ''
+const LOCAL_DB = `mongodb://localhost:27017/${DB_NAME}`
 
+// funciton to conenct db
 const connectDB = () =>{
     mongoose.connect(LOCAL_DB, {})
     mongoose.connection.once('open',(err)=>{
@@ -13,4 +16,5 @@ const connectDB = () =>{
     })
 }
 
+// export databse funtoin to yse it in other files
 module.exports=connectDB
