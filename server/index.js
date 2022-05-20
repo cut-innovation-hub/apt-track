@@ -6,7 +6,7 @@ const morgan = require('morgan');
 const connectDB = require("./utils/mongo");
 require('dotenv').config()
 
-// declaring the port
+// declaring the port if not given use port 5000
 const port = process.env.PORT || 5000;
 
 //applevel middleware
@@ -20,9 +20,10 @@ app.use(express.json({ extended: false }));
 // connect database
 connectDB()
 
+// initial route to test if server is working
 app.get("/", (req, res) => {
   res.send({
-    message: "Api for connect - ene",
+    message: "Api for cut hub project 1",
   });
 });
 
@@ -33,7 +34,7 @@ app.use((req, res, next) => {
   next(error);
 });
 
-//error hanling middleware
+//error hanlding middleware
 app.use((error, req, res, next) => {
   const statusCode = res.statusCode === 200 ? 500 : res.statusCode;
   res.status(statusCode);
