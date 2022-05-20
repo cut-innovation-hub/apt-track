@@ -1,0 +1,1 @@
+all routes for the node app 
