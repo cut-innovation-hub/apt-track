@@ -1,13 +1,12 @@
 const express = require("express");
 const app = express();
+require("dotenv").config();
 const helmet = require("helmet");
 const cors = require("cors");
 const morgan = require("morgan");
 const connectDB = require("./utils/mongo");
-require("dotenv").config();
 const swaggerUI = require("swagger-ui-express");
 const swaggerJsDoc = require('swagger-jsdoc')
-const swaggerDocument = require('./swagger.json');
 
 // declaring the port if not given use port 5000
 const port = process.env.PORT || 5000;
@@ -50,6 +49,7 @@ app.get("/", (req, res) => {
 
 //user defined routes
 app.use('/api/auth/register', require('./routes/auth/register'))
+app.use('/api/auth/login', require('./routes/auth/login'))
 
 //not found handler
 app.use((req, res, next) => {
@@ -63,7 +63,7 @@ app.use((error, req, res, next) => {
   const statusCode = res.statusCode === 200 ? 500 : res.statusCode;
   res.status(statusCode);
   console.log(error);
-  res.json({
+  res.send({
     message: error.message,
     stack:
       process.env.NODE_ENV === "production"
