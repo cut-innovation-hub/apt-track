@@ -1,10 +1,13 @@
 const express = require("express");
 const app = express();
-const helmet = require('helmet')
-const cors = require('cors')
-const morgan = require('morgan');
+const helmet = require("helmet");
+const cors = require("cors");
+const morgan = require("morgan");
 const connectDB = require("./utils/mongo");
-require('dotenv').config()
+require("dotenv").config();
+const swaggerUI = require("swagger-ui-express");
+const swaggerJsDoc = require('swagger-jsdoc')
+const swaggerDocument = require('./swagger.json');
 
 // declaring the port if not given use port 5000
 const port = process.env.PORT || 5000;
@@ -17,15 +20,36 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json({ extended: false }));
 
-// connect database
-connectDB()
+//confogiring swagger
+const swaggerOPtions = {
+  swaggerDefinition: {
+    info: {
+      title: "Cut Hub",
+      description: "Cut Smart Smart bus project",
+    },
+    contact: {
+      name: "Software Developers",
+    },
+    servers: ["http://localhost:5000"],
+  },
+  apis: ["./index.js","./routes/auth/*.js"],
+};
 
-// initial route to test if server is working
+const swaggerDocs = swaggerJsDoc(swaggerOPtions);
+app.use("/api/docs", swaggerUI.serve, swaggerUI.setup(swaggerDocs));
+
+// connect database
+connectDB();
+
 app.get("/", (req, res) => {
   res.send({
     message: "Api for cut hub project 1",
   });
 });
+
+
+//user defined routes
+app.use('/api/auth/register', require('./routes/auth/register'))
 
 //not found handler
 app.use((req, res, next) => {
@@ -38,7 +62,7 @@ app.use((req, res, next) => {
 app.use((error, req, res, next) => {
   const statusCode = res.statusCode === 200 ? 500 : res.statusCode;
   res.status(statusCode);
-  consola.error(error);
+  console.log(error);
   res.json({
     message: error.message,
     stack:

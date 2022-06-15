@@ -1,5 +1,13 @@
 const mongoose = require("mongoose");
 
+// user schema
+/**
+ * @param email - email of user
+ * @param password - encrypted password of user
+ * @param role - the role of the user
+ * @param emailApproved - user has recived email and confirmed
+ * @param terms_agreed - user has agreed to the terms and conditions
+ */
 const userSchema = new mongoose.Schema(
   {
     email: {
@@ -10,6 +18,20 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    role: {
+      type: String,
+      enum: ["user", "owner", "admin"],
+      default: "user",
+    },
+    emailApproved:{
+      type: Boolean,
+      default: true
+    },
+    terms_agreed:{
+      type: String,
+      required: true,
+      default: false
+    }
   },
   {
     timestamps: true,

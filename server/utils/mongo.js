@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 
 // mongodb url 
-const DB_NAME = ''
+const DB_NAME = 'cut_hub_DB'
 const LOCAL_DB = `mongodb://localhost:27017/${DB_NAME}`
 
 // funciton to conenct db
