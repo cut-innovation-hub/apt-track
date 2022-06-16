@@ -47,7 +47,7 @@ exports.requireOwnerSignIn = (req, res, next) => {
                 return res.status(500).send({ error: err.message })
             }
              // if token is valid return user object
-            if (user.role === 'owner') {
+            if (user.role === 'driver') {
                 req.user = user
                 next()
             }
@@ -61,7 +61,7 @@ exports.requireOwnerSignIn = (req, res, next) => {
     }
 }
 
-exports.requireOwnerSignIn = (req, res, next) => {
+exports.requireAdminSignIn = (req, res, next) => {
     if (req.headers.authorization) {
         //get token from headers
         const token = req.headers.authorization
