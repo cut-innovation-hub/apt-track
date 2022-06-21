@@ -2,17 +2,58 @@
 /server/.env
 
 
-/mobile_app/node_modules/
-/mobile_app/.expo/
-/mobile_app/dist/
-/mobile_app/npm-debug.*
-/mobile_app/*.jks
-/mobile_app/*.p8
-/mobile_app/*.p12
-/mobile_app/*.key
-/mobile_app/*.mobileprovision
-/mobile_app/*.orig.*
-/mobile_app/web-build/
-
-# macOS
+# OSX
+#
 /mobile_app/.DS_Store
+
+# Xcode
+#
+/mobile_app/build/
+/mobile_app/*.pbxuser
+/mobile_app/!default.pbxuser
+/mobile_app/*.mode1v3
+/mobile_app/!default.mode1v3
+/mobile_app/*.mode2v3
+/mobile_app/!default.mode2v3
+/mobile_app/*.perspectivev3
+/mobile_app/!default.perspectivev3
+/mobile_app/xcuserdata
+/mobile_app/*.xccheckout
+/mobile_app/*.moved-aside
+/mobile_app/DerivedData
+/mobile_app/*.hmap
+/mobile_app/*.ipa
+/mobile_app/*.xcuserstate
+/mobile_app/project.xcworkspace
+
+# Android/IntelliJ
+#
+/mobile_app/build/
+/mobile_app/.idea
+/mobile_app/.gradle
+/mobile_app/local.properties
+/mobile_app/*.iml
+/mobile_app/*.hprof
+
+# node.js
+#
+/mobile_app/node_modules/
+/mobile_app/npm-debug.log
+/mobile_app/yarn-error.log
+
+# BUCK
+/mobile_app/buck-out/
+/mobile_app/\.buckd/
+/mobile_app/*.keystore
+/mobile_app/!debug.keystore
+
+# Bundle artifacts
+/mobile_app/*.jsbundle
+
+# CocoaPods
+/mobile_app//ios/Pods/
+
+# Expo
+/mobile_app/.expo/
+/mobile_app/web-build/
+/mobile_app/dist/
