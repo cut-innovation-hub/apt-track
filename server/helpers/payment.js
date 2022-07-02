@@ -17,4 +17,33 @@ const  calculateNextPayment = (chargeType, normalDate) =>{
     }
 }
 
+async function verifyPayment(reference) {
+    // let options = {
+    //     'method': 'GET',
+    //     'url': `https://api.paystack.co/transaction/verify/${reference}`,
+    //     'headers': {
+    //         'Authorization': "Bearer " + process.env.payStack_Secret
+    //     }
+    // };
+    // return new Q.Promise(async (resolve, reject) => {
+    //     await request(options, function (error, response) {
+    //         if (error) {
+    //             console.log("error", error);
+    //             return reject(error);
+    //         }
+    //         let verification_response = JSON.parse(response.body);
+    //         if (verification_response.status === true && verification_response.data.status === "success") {
+    //             return resolve(verification_response);
+    //         } else {
+    //             return reject(verification_response)
+    //         }
+
+    //     });
+
+    // });
+    return "paid"
+}
+
+module.exports.verifyPayment = verifyPayment;
+
 module.exports.calculateNextPayment = calculateNextPayment;

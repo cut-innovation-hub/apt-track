@@ -35,7 +35,7 @@ exports.createAPlan = async (req, res) => {
 
 // create a plan for admins only
 // post request
-// /api/plan/create/{planId}
+// /api/plan/edit/{planId}
 exports.editAPlan = async (req, res) => {
   try {
     const { id } = req.params; // the id of the plan
@@ -54,9 +54,9 @@ exports.editAPlan = async (req, res) => {
     plan.period = period;
 
     // save the plan and capture the error
-    const saved_plan = await user.save();
+    const saved_plan = await plan.save();
     if (saved_plan) {
-      return res.status(200).send({ message: "Plan saved successfully" });
+      return res.status(200).send({ message: "Plan edited successfully" });
     } else {
       return res
         .status(400)

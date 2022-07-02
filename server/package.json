@@ -19,6 +19,7 @@
     "moment": "^2.29.3",
     "mongoose": "^6.3.3",
     "morgan": "^1.10.0",
+    "node-cron": "^3.0.1",
     "swagger-jsdoc": "^6.2.1",
     "swagger-ui-express": "^4.4.0"
   }
