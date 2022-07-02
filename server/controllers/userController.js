@@ -9,9 +9,16 @@ exports.editUserInfo = async (req, res) => {
 
     // find if user exists in database
     const { id } = req.params;
+
     const user = await User.findOne({ _id: id });
     if (!user) {
-      res.status(404).send({ message: "could not find the user" });
+      res.status(404).send({ message: "Could not find the user" });
+      return;
+    }
+
+    // check if user is allowed to edit the acciut
+    if (req.user._id !== id) {
+      res.status(403).send({ message: "You can only edit your account" });
       return;
     }
 
@@ -40,6 +47,7 @@ exports.editUserInfo = async (req, res) => {
   } catch (error) {
     return res.status(500).send({ message: `error :-, ${error} ` });
   }
+  // res.send({user: req.user})
 };
 
 // delete user
