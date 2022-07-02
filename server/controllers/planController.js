@@ -36,7 +36,48 @@ exports.createAPlan = async (req, res) => {
 // create a plan for admins only
 // post request
 // /api/plan/create/{planId}
-exports.editAPlan = async (req, res) =>{
-    const {id} = req.params // the id of the plan
-    const {price, name, period} = req.body // get fields from the client
-}
+exports.editAPlan = async (req, res) => {
+  try {
+    const { id } = req.params; // the id of the plan
+    const { price, name, period } = req.body; // get fields from the client
+
+    // check if the plan exists
+    const plan = await Plan.findOne({ _id: id });
+    if (!plan) {
+      res.status(404).send({ message: "Could not find the selected plan" });
+      return;
+    }
+
+    // change the fields in the plan object
+    plan.name = name;
+    plan.price = price;
+    plan.period = period;
+
+    // save the plan and capture the error
+    const saved_plan = await user.save();
+    if (saved_plan) {
+      return res.status(200).send({ message: "Plan saved successfully" });
+    } else {
+      return res
+        .status(400)
+        .send({ message: "oops an error occured try again" });
+    }
+  } catch (error) {
+    return res.status(500).send({ message: `error:- ${error}` });
+  }
+};
+
+// get all plans
+// get request
+// /api/plan/all
+exports.getAllPlans = async (req, res) => {
+  try {
+    // find all plans
+    const all_plans = await Plan.find({});
+
+    // send all plans to client
+    return res.status(200).send({ plans: all_plans });
+  } catch (error) {
+    return res.status(500).send({ message: `error:- ${error}` });
+  }
+};

@@ -1,5 +1,5 @@
 const express = require("express");
-const { createAPlan, editAPlan } = require("../../controllers/planController");
+const { createAPlan, editAPlan, getAllPlans } = require("../../controllers/planController");
 const { requireAdminSignIn } = require("../../middleware/require_auth");
 const Plan = require("../../models/Plan");
 const router = express.Router();
@@ -73,5 +73,19 @@ router.post("/create",requireAdminSignIn, createAPlan);
  *        description: Failed to create the plan
  */
 router.put('/edit/:id', requireAdminSignIn, editAPlan)
+
+/**
+ * @swagger
+ * /plan/all:
+ *    get:
+ *      summary: get all plans
+ *      description: Get a list of all subscriptions and plans to display to buyer and admins
+ *    responses:
+ *      '200':
+ *        description: All plans fetched successfully
+ *      '500':
+ *        description: There was an erroe diplaying the plans
+ */
+router.get('/all', getAllPlans)
 
 module.exports = router;
