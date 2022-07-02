@@ -34,6 +34,7 @@ exports.requireUserSignIn = (req, res, next) => {
     }
 }
 
+// middleware for authentocating bus driver
 exports.requireOwnerSignIn = (req, res, next) => {
     if (req.headers.authorization) {
          //get token from headers
@@ -47,7 +48,7 @@ exports.requireOwnerSignIn = (req, res, next) => {
                 return res.status(500).send({ error: err.message })
             }
              // if token is valid return user object
-            if (user.role === 'driver') {
+            if (user.role === 'driver' || user.role === 'admin') {
                 req.user = user
                 next()
             }
@@ -61,6 +62,7 @@ exports.requireOwnerSignIn = (req, res, next) => {
     }
 }
 
+// middleware for authentcating admisn only
 exports.requireAdminSignIn = (req, res, next) => {
     if (req.headers.authorization) {
         //get token from headers
@@ -80,6 +82,34 @@ exports.requireAdminSignIn = (req, res, next) => {
             }
             else{
                 return res.status(500).send({ message: 'Action is allowed by admins only' })
+            }
+        })
+
+    } else {
+        return res.status(500).send({ message: 'Not Allowed to perform task' })
+    }
+}
+
+// middleware for authenticating bus owners onlyr 
+exports.requireBusOwnerSignIn = (req, res, next) => {
+    if (req.headers.authorization) {
+        //get token from headers
+        const token = req.headers.authorization
+
+        // verufy if token is valid
+        jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+            // if error occured while validating token return that error
+            if (err) {
+                return res.status(500).send({ error: err.message })
+            }
+
+            // if token is valid return user object
+            if (user.role === 'admin' || user.role === 'bus_admin') {
+                req.user = user
+                next()
+            }
+            else{
+                return res.status(500).send({ message: 'Action is allowed by bus owners' })
             }
         })
 
