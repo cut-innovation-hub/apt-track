@@ -1,7 +1,11 @@
 const express = require("express");
-const { createAPlan, editAPlan, getAllPlans } = require("../../controllers/planController");
+const {
+  createAPlan,
+  editAPlan,
+  getAllPlans,
+  deleteAPlan,
+} = require("../../controllers/planController");
 const { requireAdminSignIn } = require("../../middleware/require_auth");
-const Plan = require("../../models/Plan");
 const router = express.Router();
 
 /**
@@ -27,7 +31,7 @@ const router = express.Router();
  *          format: string
  *      - name: period
  *      - in: body
- *        description: the period of payment of the plan e.g monthly, weekly 
+ *        description: the period of payment of the plan e.g monthly, weekly
  *        schema:
  *          type: string
  *          format: string
@@ -37,7 +41,7 @@ const router = express.Router();
  *      '500':
  *        description: Failed to create the plan
  */
-router.post("/create",requireAdminSignIn, createAPlan);
+router.post("/create", requireAdminSignIn, createAPlan);
 
 /**
  * @swagger
@@ -62,7 +66,7 @@ router.post("/create",requireAdminSignIn, createAPlan);
  *          format: string
  *      - name: period
  *      - in: body
- *        description: the period of payment of the plan e.g monthly, weekly 
+ *        description: the period of payment of the plan e.g monthly, weekly
  *        schema:
  *          type: string
  *          format: string
@@ -72,7 +76,7 @@ router.post("/create",requireAdminSignIn, createAPlan);
  *      '500':
  *        description: Failed to create the plan
  */
-router.put('/edit/:id', requireAdminSignIn, editAPlan)
+router.put("/edit/:id", requireAdminSignIn, editAPlan);
 
 /**
  * @swagger
@@ -86,6 +90,24 @@ router.put('/edit/:id', requireAdminSignIn, editAPlan)
  *      '500':
  *        description: There was an erroe diplaying the plans
  */
-router.get('/all', getAllPlans)
+router.get("/all", getAllPlans);
+
+/**
+ * @swagger
+ * /user/delete/{planId}:
+ *    delete:
+ *      summary: delete plan using plan id
+ *      description: use to delete plan info and the entire plan from the database
+ *    parameters:
+ *      - name: planId
+ *      - in: path
+ *        description: the id of the plan to be deleted
+ *    responses:
+ *      '200':
+ *        description: Plan deleted sucessfully
+ *      '500':
+ *        description: Failed to delete plan
+ */
+router.delete("/delete/:id", requireAdminSignIn, deleteAPlan);
 
 module.exports = router;

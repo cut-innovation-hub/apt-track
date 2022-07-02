@@ -81,3 +81,19 @@ exports.getAllPlans = async (req, res) => {
     return res.status(500).send({ message: `error:- ${error}` });
   }
 };
+
+// delete a plan
+// delete request
+// /api/plan/delete/{planId}
+exports.deleteAPlan = async (req, res) => {
+  // find if plan exists in database
+  const { id } = req.params;
+
+  // delte the user and capture the error
+  Plan.findOneAndRemove({ _id: id }, (err) => {
+    if (err) {
+      return res.send({ message: `error :-, ${error} ` });
+    }
+    return res.send({ message: "Plan deleted successfully!" });
+  });
+};
