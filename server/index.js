@@ -31,7 +31,7 @@ const swaggerOPtions = {
     },
     servers: ["http://localhost:5000"],
   },
-  apis: ["./index.js","./routes/auth/*.js","./routes/user/*.js"],
+  apis: ["./index.js","./routes/auth/*.js","./routes/user/*.js", "./routes/plan/*.js"],
 };
 
 const swaggerDocs = swaggerJsDoc(swaggerOPtions);
@@ -52,6 +52,7 @@ app.use('/api/auth/register', require('./routes/auth/register'))
 app.use('/api/auth/login', require('./routes/auth/login'))
 app.use('/api/bus', require('./routes/bus/bus'))
 app.use('/api/user', require('./routes/user/user'))
+app.use('/api/plan', require('./routes/plan/plan'))
 
 //not found handler
 app.use((req, res, next) => {

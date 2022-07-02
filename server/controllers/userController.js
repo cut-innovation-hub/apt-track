@@ -1,7 +1,9 @@
 const User = require("../models/User");
 const bcrypt = require("bcrypt");
 
-// edit user info
+// edit user
+// /api/user/edit/{userId}
+// put request
 exports.editUserInfo = async (req, res) => {
   try {
     // get iformation from client
@@ -54,6 +56,19 @@ exports.editUserInfo = async (req, res) => {
 // /api/user/delete/{userId}
 // delete request
 exports.delteUser = async (req, res) => {
-  console.log("delete user account");
-  res.status(200).send({ message: "delte user from here" });
+  // find if user exists in database
+  const { id } = req.params;
+  // check if user is allowed to delte the account
+  if (req.user._id !== id) {
+    res.status(403).send({ message: "You can only edit your account" });
+    return;
+  }
+
+  // delte the user and capture the error
+  User.findOneAndRemove({ _id: req.params.id }, (err) => {
+    if (err) {
+      return res.send({ message: `error :-, ${error} ` });
+    }
+    return res.send({ message: "Account deleted successfully!" });
+  });
 };
