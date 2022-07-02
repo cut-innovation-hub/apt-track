@@ -28,7 +28,7 @@ const userSchema = new mongoose.Schema(
       default: true
     },
     terms_agreed:{
-      type: String,
+      type: Boolean,
       required: true,
       default: false
     }

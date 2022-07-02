@@ -22,6 +22,7 @@ const busSchema = new mongoose.Schema(
     destination_address: {
       type: String,
     },
+
     departure_address: {
       type: String,
     },
@@ -35,6 +36,10 @@ const busSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    bus_owner:{
+      type:String,
+      required: true
+    }
   },
   {
     timestamps: true,
