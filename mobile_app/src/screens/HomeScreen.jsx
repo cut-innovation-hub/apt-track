@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { StatusBar } from "expo-status-bar";
-import HomeBottomSheet from "../components/BottomSheet/HomeBottomSheet";
+import HomeBottomSheet from '../components/BottomSheet/HomeBottomSheet'
 
 const HomeScreen = () => {
   
