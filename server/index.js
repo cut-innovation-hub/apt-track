@@ -53,6 +53,7 @@ app.use('/api/auth/login', require('./routes/auth/login'))
 app.use('/api/bus', require('./routes/bus/bus'))
 app.use('/api/user', require('./routes/user/user'))
 app.use('/api/plan', require('./routes/plan/plan'))
+app.use('/api/locations', require('./routes/locations/locations'))
 
 //not found handler
 app.use((req, res, next) => {

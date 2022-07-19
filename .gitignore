@@ -1,5 +1,7 @@
 /server/node_modules
 /server/.env
+/server/.git
+/server/.gitignore
 
 
 # OSX

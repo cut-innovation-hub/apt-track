@@ -6,6 +6,7 @@ import BottomSheet, {
 } from "@gorhom/bottom-sheet";
 import CustomText from "../../Text/CustomText";
 import { Feather } from "@expo/vector-icons";
+import BusComponent from "../BusComponent/BusComponent";
 
 const HomeBottomSheet = ({ top_text, hide_search_bar }) => {
   const [query, setQuery] = useState("");
@@ -30,8 +31,8 @@ const HomeBottomSheet = ({ top_text, hide_search_bar }) => {
   // render
   const renderItem = useCallback(
     (item) => (
-      <View key={item} style={styles.itemContainer}>
-        <Text>{item}</Text>
+      <View key={item} style={tailwind`my-2`}>
+        <BusComponent />
       </View>
     ),
     []
@@ -55,7 +56,7 @@ const HomeBottomSheet = ({ top_text, hide_search_bar }) => {
             {/* // the search bar in bottom sheet */}
             {!hide_search_bar && (
               <View
-                style={tailwind`flex-row items-center p-2 flex bg-gray-200 rounded-lg `}
+                style={tailwind`flex-row items-center p-2 flex bg-gray-200 rounded-lg mb-8 `}
               >
                 <View>
                   <Feather name="search" size={20} color="#9ca3af" />
@@ -71,7 +72,7 @@ const HomeBottomSheet = ({ top_text, hide_search_bar }) => {
                 </View>
               </View>
             )}
-            {/* {data?.map(renderItem)} */}
+            {data?.map(renderItem)}
           </View>
         </BottomSheetScrollView>
       </BottomSheet>
