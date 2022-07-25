@@ -3,6 +3,42 @@
 /server/.git
 /server/.gitignore
 
+########################################################################################################################################
+# for admin_dashboard
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/admin_dashboard/node_modules
+/admin_dashboard/.pnp
+/admin_dashboard/.pnp.js
+
+# testing
+/admin_dashboard/coverage
+
+# next.js
+/admin_dashboard/.next/
+/admin_dashboard/out/
+# production
+/admin_dashboard/build
+# misc
+/admin_dashboard/.DS_Store
+/admin_dashboard/*.pem
+# debug
+/admin_dashboard/npm-debug.log*
+/admin_dashboard/yarn-debug.log*
+/admin_dashboard/yarn-error.log*
+/admin_dashboard/.pnpm-debug.log*
+# local env files
+/admin_dashboard/.env.local
+/admin_dashboard/.env.development.local
+/admin_dashboard/.env.test.local
+/admin_dashboard/.env.production.local
+# vercel
+/admin_dashboard/.vercel
+# typescript
+/admin_dashboard/*.tsbuildinfo
+
+
 
 # OSX
 #

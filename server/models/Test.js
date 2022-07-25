@@ -2,10 +2,10 @@ const mongoose = require('mongoose')
 
 const testSchema = new mongoose.Schema({
     longitude:{
-        type: Number
+        type: String
     },
-    lotitude:{
-        type: Number
+    latitude:{
+        type: String
     }
 },{
     timestamps: true

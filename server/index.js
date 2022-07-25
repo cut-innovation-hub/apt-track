@@ -8,6 +8,13 @@ const connectDB = require("./utils/mongo");
 const swaggerUI = require("swagger-ui-express");
 const swaggerJsDoc = require('swagger-jsdoc')
 
+// a server for socket io
+var server = require('http').createServer(app);
+const socketio = require("socket.io")
+const WebSockets = require('./helpers/WebSockets')
+global.io = socketio(server);
+global.io.on('connection', WebSockets.connection)
+
 // declaring the port if not given use port 5000
 const port = process.env.PORT || 5000;
 
@@ -77,7 +84,7 @@ app.use((error, req, res, next) => {
 });
 
 // the listener
-app.listen(port, (err) => {
+server.listen(port, (err) => {
   if (err) {
     console.log("There was an error :- ", err);
   } else {
