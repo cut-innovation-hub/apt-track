@@ -1,7 +1,8 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { StatusBar } from "expo-status-bar";
-import HomeBottomSheet from '../components/BottomSheet/HomeBottomSheet'
+import HomeBottomSheet from "../components/BottomSheet/HomeBottomSheet";
+import BusComponent from "../components/BusComponent/BusComponent";
 
 const HomeScreen = () => {
   
@@ -12,6 +13,7 @@ const HomeScreen = () => {
       <Button title="Snap To 25%" onPress={() => handleSnapPress(0)} />
       <Button title="Close" onPress={() => handleClosePress()} /> */}
       <Text>Map Goes here</Text>
+      {/* <BusComponent /> */}
       
       <>
         <HomeBottomSheet top_text={"Where to today?"}/>
