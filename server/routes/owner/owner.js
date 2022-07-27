@@ -1,11 +1,13 @@
 const express = require('express')
+const { createAnOwnerAccount, registerOwnerAccount } = require('../../controllers/ownerController')
 const { requireUserSignIn, requireOwnerSignIn, requireAdminSignIn } = require('../../middleware/require_auth')
 const router = express.Router()
 
+// registe an owner account
+router.post('/register', registerOwnerAccount)
+
 // create an owner account by applying for an account
-router.post('/create',requireUserSignIn, async(req,res)=>{
-    return res.status(200).send('create an owner account')
-})
+router.post('/create',requireUserSignIn, createAnOwnerAccount)
 
 // edit an owner account
 router.put('/edit/:id', requireOwnerSignIn, async(req,res)=>{

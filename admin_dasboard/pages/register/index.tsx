@@ -5,6 +5,7 @@ import { useRouter } from 'next/router'
 import axios from 'axios'
 import { useToast } from '@chakra-ui/react'
 import { apiUrl } from '../../utils/apiUrl'
+import { getError } from '../../utils/getError'
 
 function Register() {
   const [username, setUsername] = useState<string>('')
@@ -22,7 +23,7 @@ function Register() {
     setLoading(true)
     e.preventDefault()
     try {
-      const { data } = await axios.post(`${apiUrl}/api/auth/register`, {
+      const { data } = await axios.post(`${apiUrl}/api/owner/register`, {
         email,
         password,
         name: username,
@@ -30,7 +31,7 @@ function Register() {
         role: 'bus_admin'
       })
       //@ts-ignore
-      history.push(redirect || '/success/register-success')
+      history.push(redirect || '/create-owner')
       console.log(data)
       toast({
         title: 'Account created sucessfully!.',
@@ -43,7 +44,7 @@ function Register() {
     } catch (error) {
       //@ts-ignore
       toast({
-        title: 'error',
+        title: getError(error),
         status: 'error',
         position: 'top-right',
         duration: 9000,
@@ -76,7 +77,7 @@ function Register() {
                   htmlFor="username"
                   className="block text-sm font-medium text-gray-700"
                 >
-                  Username
+                  Company Name
                 </label>
                 <div className="mt-1">
                   <input
