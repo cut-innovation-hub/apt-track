@@ -1,10 +1,39 @@
 import React, { useState } from "react";
+import axios from "axios";
+import { getError } from "../../utils/getError";
+import { apiUrl } from "../../utils/apiUrl";
 
 function CreateOwner() {
   const [email, setEmail] = useState("");
   const [phone_number, setPhoneNumber] = useState("");
   const [phone_number2, setPhoneNumber2] = useState("");
   const [notification_type, setNotificationType] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const create_an_owner_accont = async () => {
+    setLoading(true);
+    try {
+      const { data } = await axios.post(
+        `${apiUrl}/api/owner/create`,
+        {
+          email: email,
+          phone: phone_number,
+          phone_number2: phone_number2,
+          notification_type: notification_type,
+        },
+        {
+          headers: {
+            Authorization: "token",
+          },
+        }
+      );
+      setLoading(false);
+    } catch (error) {
+      console.error(getError(error));
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="flex flex-col max-w-7xl py-16 mx-auto bg-white px-4">
       <div className="grid grid-cols-5 gap-8">
@@ -91,7 +120,9 @@ function CreateOwner() {
                 className="focus:ring-grape-500 h-4 w-4 text-grape-600 border-gray-300"
               />
               <label htmlFor="budget-25k-50k" className="ml-3">
-                <span className="block text-sm text-gray-500">Through Texts</span>
+                <span className="block text-sm text-gray-500">
+                  Through Texts
+                </span>
               </label>
             </div>
             <div className="flex items-center">
@@ -104,7 +135,9 @@ function CreateOwner() {
                 className="focus:ring-grape-500 h-4 w-4 text-grape-600 border-gray-300"
               />
               <label htmlFor="budget-under-3000" className="ml-3">
-                <span className="block text-sm text-gray-500">Through push notifications</span>
+                <span className="block text-sm text-gray-500">
+                  Through push notifications
+                </span>
               </label>
             </div>
           </div>
