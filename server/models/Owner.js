@@ -45,6 +45,12 @@ const ownerSchema = new mongoose.Schema(
       type: Date,
     },
 
+    // checking if email if approved
+    emailApproved:{
+      type: Boolean,
+      default: true
+    },
+
     // check if account has been approved or not
     approved: {
       type: Boolean,

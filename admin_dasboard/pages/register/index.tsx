@@ -31,7 +31,7 @@ function Register() {
         role: 'bus_admin'
       })
       //@ts-ignore
-      history.push(redirect || '/create-owner')
+      history.push('/login')
       console.log(data)
       toast({
         title: 'Account created sucessfully!.',

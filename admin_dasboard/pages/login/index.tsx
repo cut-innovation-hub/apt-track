@@ -23,7 +23,7 @@ function login() {
   const { cut_buses_Admin_User } = state;
 
   useEffect(() => {
-    if (cut_buses_Admin_User?.role === "bus_admin") {
+    if (cut_buses_Admin_User?.approved) {
       history.push("/");
     }
   }, []);
@@ -31,12 +31,12 @@ function login() {
   const login_user_handler = async () => {
     setLoading(true);
     try {
-      const { data } = await axios.post(`${apiUrl}/api/auth/login`, {
+      const { data } = await axios.post(`${apiUrl}/api/owner/login`, {
         email,
         password,
       });
 
-      if (data.role === "bus_admin") {
+      if (data.approved) {
         dispatch({ type: "USER_LOGIN", payload: data });
         Cookies.set("cut_buses_Admin_User", JSON.stringify(data), {
           expires: 7,
@@ -54,9 +54,13 @@ function login() {
           isClosable: true,
         });
       } else {
+        setTimeout(() => {
+          //@ts-ignore
+          history.push("/create-owner");
+        }, 1000);
         toast({
-          title: "Not allowed",
-          status: "error",
+          title: "Login successful.",
+          status: "success",
           position: "top-right",
           duration: 9000,
           isClosable: true,
