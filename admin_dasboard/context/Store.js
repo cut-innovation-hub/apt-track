@@ -6,7 +6,7 @@ const initialState = {
     cart: {
         cartItems: Cookies.get('cartItems') ? JSON.parse(Cookies.get('cartItems')) : []
     },
-    userInfo: Cookies.get('userInfo') ? JSON.parse(Cookies.get('userInfo')) : null,
+    cut_buses_Admin_User: Cookies.get('cut_buses_Admin_User') ? JSON.parse(Cookies.get('cut_buses_Admin_User')) : null,
     search_query: '',
 }
 
@@ -34,9 +34,9 @@ function reducer(state={search_category:''}, action) {
         case 'CLEAR_CART':
             return {...state, cart: {cartItems: []}}
         case 'USER_LOGIN':
-            return { ...state, userInfo: action.payload }
+            return { ...state, cut_buses_Admin_User: action.payload }
         case 'USER_LOGOUT':
-            return { ...state, userInfo: null, cart: { cartItems: [] } }
+            return { ...state, cut_buses_Admin_User: null, cart: { cartItems: [] } }
         case 'SET_SEARCH_QUERY':
             return { ...state, search_query: action.payload }
         case 'SET_SEARCH_CATEGORY':

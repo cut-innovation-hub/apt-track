@@ -11,18 +11,13 @@ interface Props{
 function DashboardLayout({ children }:Props):ReactElement {
     const [sidebarOpen, setSidebarOpen] = useState<boolean>(false)
     const { state, dispatch } = useContext(Store)
-    const { userInfo } = state
+    const { cut_buses_Admin_User } = state
     const history = useRouter()
-
-    useEffect(()=>{
-        if (!userInfo) {
-            history.push('/login')
-        }
-    },[])
+    
     return (
         <>
 
-            <div className="relative h-screen flex overflow-hidden bg-gray-100">
+            <div className="relative h-screen flex overflow-hidden bg-gray-100 text-gray-700">
                 <div className="h-full">
                     <DashboardSidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
                 </div>

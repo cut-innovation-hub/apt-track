@@ -17,7 +17,7 @@ import { Store } from '../../context/Store'
 import { useRouter } from 'next/router'
 
 const navigation = [
-    { name: 'Home', href: '/dashboard', icon: TemplateIcon, current: false },
+    { name: 'Home', href: '/', icon: TemplateIcon, current: false },
     { name: 'Buses', href: '/dashboard/buses', icon: TruckIcon, current: false },
     { name: "Drivers", href: '/dashboard/drivers', icon: UserGroupIcon, current: false },
     // { name: 'History', href: '/dashboard/history', icon: ClockIcon, current: false },

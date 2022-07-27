@@ -22,7 +22,7 @@ router.post("/items", async (req, res) => {
       console.log("Data saved");
       return res
         .status(200)
-        .send({ message: "DAta from gps", data: addressInfo });
+        .send({ message: "Data from gps", data: addressInfo });
     } else {
       console.error("error saving coords");
       return res.status(400).send({ message: "Wrong api key" });

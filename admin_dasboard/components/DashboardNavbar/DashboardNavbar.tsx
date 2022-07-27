@@ -19,7 +19,7 @@ interface Props{
 function DashboardNavbar({setSidebarOpen}:Props):ReactElement {
     const [query, setQuery] = useState<string>('')
     const { state, dispatch } = useContext(Store)
-    const { userInfo } = state
+    const { cut_buses_Admin_User } = state
     const history = useRouter()
 
     const search_items_handler = (e:any) =>{
@@ -30,7 +30,7 @@ function DashboardNavbar({setSidebarOpen}:Props):ReactElement {
     const logout_user = () => {
         dispatch({ type: 'USER_LOGOUT' })
         history.push('/')
-        // Cookies.remove('userInfo')
+        // Cookies.remove('cut_buses_Admin_User')
         // window.location.reload()
     }
 
@@ -60,7 +60,7 @@ function DashboardNavbar({setSidebarOpen}:Props):ReactElement {
                                     id="search-field"
                                     name="search-field"
                                     onChange={e => setQuery(e.target.value)}
-                                    className="block w-full h-full pl-8 pr-3 py-2 border-transparent text-gray-900 placeholder-gray-500 outline-none sm:text-sm"
+                                    className="block w-full h-full pl-8 pr-3 py-2 border-transparent bg-white text-gray-900 placeholder-gray-500 outline-none sm:text-sm"
                                     placeholder="Search items"
                                     type="search"
                                 />
@@ -80,10 +80,10 @@ function DashboardNavbar({setSidebarOpen}:Props):ReactElement {
                         <Menu as="div" className="ml-3 relative">
                             <div>
                                 <Menu.Button className="max-w-xs bg-white rounded-full space-x-2 flex items-center text-sm focus:outline-none lg:p-2 lg:rounded-md lg:hover:bg-gray-50">
-                                    <Avatar size="sm" name={userInfo?.name} src={userInfo?.photoURL} />
+                                    <Avatar size="sm" name={cut_buses_Admin_User?.name} src={cut_buses_Admin_User?.photoURL} />
                                     <div className="hidden text-gray-700 text-sm font-medium lg:block">
                                         <span className="sr-only">Open user menu for </span>
-                                        <Username username={userInfo?.name} />
+                                        <Username username={cut_buses_Admin_User?.name} />
                                     </div>
                                     <ChevronDownIcon
                                         className="hidden flex-shrink-0 ml-1 h-5 w-5 text-gray-400 lg:block"
