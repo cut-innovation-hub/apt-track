@@ -81,7 +81,7 @@ function login() {
       <div className="min-h-screen bg-gray-100 flex flex-col sm:px-6 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-md pt-32">
           <h1 className="mt-2 text-center md:text-3xl text-lg font-extrabold text-gray-900">
-            Login to admin
+            Login to Dashoard
           </h1>
         </div>
 

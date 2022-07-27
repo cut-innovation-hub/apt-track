@@ -4,6 +4,7 @@ import BlueButton from '../../components/Buttons/BlueButton'
 import { useRouter } from 'next/router'
 import axios from 'axios'
 import { useToast } from '@chakra-ui/react'
+import { apiUrl } from '../../utils/apiUrl'
 
 function Register() {
   const [username, setUsername] = useState<string>('')
@@ -21,11 +22,12 @@ function Register() {
     setLoading(true)
     e.preventDefault()
     try {
-      const { data } = await axios.post(`/api/auth/register`, {
+      const { data } = await axios.post(`${apiUrl}/api/auth/register`, {
         email,
         password,
         name: username,
         agreed,
+        role: 'bus_admin'
       })
       //@ts-ignore
       history.push(redirect || '/success/register-success')
