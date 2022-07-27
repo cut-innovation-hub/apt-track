@@ -22,7 +22,11 @@ function login() {
   const { state, dispatch } = useContext(Store);
   const { cut_buses_Admin_User } = state;
 
-
+  useEffect(() => {
+    if (cut_buses_Admin_User?.role === "bus_admin") {
+      history.push("/");
+    }
+  }, []);
 
   const login_user_handler = async () => {
     setLoading(true);
@@ -31,23 +35,34 @@ function login() {
         email,
         password,
       });
-      dispatch({ type: "USER_LOGIN", payload: data });
-      Cookies.set("cut_buses_Admin_User", JSON.stringify(data), { expires: 7 });
-      console.log(data);
+
       if (data.role === "bus_admin") {
+        dispatch({ type: "USER_LOGIN", payload: data });
+        Cookies.set("cut_buses_Admin_User", JSON.stringify(data), {
+          expires: 7,
+        });
         setTimeout(() => {
           //@ts-ignore
           history.push(redirect || "/");
         }, 1000);
+        setLoading(false);
+        toast({
+          title: "Login successful.",
+          status: "success",
+          position: "top-right",
+          duration: 9000,
+          isClosable: true,
+        });
+      } else {
+        toast({
+          title: "Not allowed",
+          status: "error",
+          position: "top-right",
+          duration: 9000,
+          isClosable: true,
+        });
+        setLoading(false);
       }
-      setLoading(false);
-      toast({
-        title: "Login successful.",
-        status: "success",
-        position: "top-right",
-        duration: 9000,
-        isClosable: true,
-      });
     } catch (error) {
       setLoading(false);
       //@ts-ignore
