@@ -13,6 +13,13 @@ function DashboardLayout({ children }:Props):ReactElement {
     const { state, dispatch } = useContext(Store)
     const { cut_buses_Admin_User } = state
     const history = useRouter()
+
+    useEffect(()=>{
+        //@ts-ignore
+        if (!cut_buses_Admin_User?.role === 'bus_admin') {
+            history.push('/login')
+        }
+    },[])
     
     return (
         <>
