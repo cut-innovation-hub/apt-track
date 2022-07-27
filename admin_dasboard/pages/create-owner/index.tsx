@@ -1,7 +1,11 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { getError } from "../../utils/getError";
 import { apiUrl } from "../../utils/apiUrl";
+import { Store } from "../../context/Store";
+import Cookies from "js-cookie";
+import { useRouter } from "next/router";
+import { useToast } from "@chakra-ui/react";
 
 function CreateOwner() {
   const [email, setEmail] = useState("");
@@ -9,6 +13,19 @@ function CreateOwner() {
   const [phone_number2, setPhoneNumber2] = useState("");
   const [notification_type, setNotificationType] = useState("");
   const [loading, setLoading] = useState(false);
+  const history = useRouter();
+  const toast = useToast();
+
+  const { state, dispatch } = useContext(Store);
+  const { cut_buses_Admin_User } = state;
+
+  useEffect(() => {
+    if (cut_buses_Admin_User?.role !== 'bus_admin') {
+      history.push("/login");
+    }
+  }, []);
+
+  console.log(cut_buses_Admin_User)
 
   const create_an_owner_accont = async () => {
     setLoading(true);
@@ -17,16 +34,32 @@ function CreateOwner() {
         `${apiUrl}/api/owner/create`,
         {
           email: email,
-          phone: phone_number,
+          phone_number: phone_number,
           phone_number2: phone_number2,
           notification_type: notification_type,
         },
         {
           headers: {
-            Authorization: "token",
+            Authorization: cut_buses_Admin_User?.token,
           },
         }
       );
+      dispatch({ type: "USER_LOGIN", payload: data });
+      Cookies.set("cut_buses_Admin_User", JSON.stringify(data), {
+        expires: 7,
+      });
+      setTimeout(() => {
+        //@ts-ignore
+        history.push("/");
+      }, 1000);
+      setLoading(false);
+      toast({
+        title: "Account created succussfully.",
+        status: "success",
+        position: "top-right",
+        duration: 9000,
+        isClosable: true,
+      });
       setLoading(false);
     } catch (error) {
       console.error(getError(error));
@@ -144,7 +177,10 @@ function CreateOwner() {
         </fieldset>
 
         <div className="col-span-5 mx-auto">
-          <div className="flex bg-blue-primary text-white p-2 rounded font-semibold cursor-pointer hover:bg-blue-dark ">
+          <div
+            onClick={create_an_owner_accont}
+            className="flex bg-blue-primary text-white p-2 rounded font-semibold cursor-pointer hover:bg-blue-dark "
+          >
             Save Info
           </div>
         </div>

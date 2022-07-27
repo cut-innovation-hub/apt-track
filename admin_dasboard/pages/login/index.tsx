@@ -54,6 +54,10 @@ function login() {
           isClosable: true,
         });
       } else {
+        dispatch({ type: "USER_LOGIN", payload: data });
+        Cookies.set("cut_buses_Admin_User", JSON.stringify(data), {
+          expires: 7,
+        });
         setTimeout(() => {
           //@ts-ignore
           history.push("/create-owner");

@@ -11,6 +11,10 @@ const ownerSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    contact_email:{
+      type:String,
+      default: ''
+    },
     // password of the company to enter their dashboard
     password: {
       type: String,
@@ -26,7 +30,7 @@ const ownerSchema = new mongoose.Schema(
     },
 
     // additional phone number of the compant
-    phone_number_2: {
+    phone_number2: {
       type: String,
     },
 
@@ -60,6 +64,7 @@ const ownerSchema = new mongoose.Schema(
     notification_type: {
       type: String,
     },
+
 
     role: {
       type: String,

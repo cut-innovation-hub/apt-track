@@ -5,8 +5,7 @@ const {
   loginOwnerAccount,
 } = require("../../controllers/ownerController");
 const {
-  requireUserSignIn,
-  requireOwnerSignIn,
+  requireBusOwnerSignIn,
   requireAdminSignIn,
 } = require("../../middleware/require_auth");
 const router = express.Router();
@@ -24,12 +23,10 @@ router.post("/login", loginOwnerAccount);
 // create an owner account by applying for an account
 // post request
 // /api/post/owner/create
-router.post("/create", requireUserSignIn, createAnOwnerAccount);
+router.post("/create", requireBusOwnerSignIn, createAnOwnerAccount);
 
 // edit an owner account
-router.put("/edit/:id", requireOwnerSignIn, async (req, res) => {
-  return res.status(200).send({ message: " edit a single bus owner account" });
-});
+router.put("/edit/:id", requireBusOwnerSignIn, createAnOwnerAccount);
 
 //get a single bus account
 router.get("/single/:id", requireAdminSignIn, (req, res) => {
@@ -42,12 +39,12 @@ router.get("/all", requireAdminSignIn, (req, res) => {
 });
 
 // delete user account
-router.delete("/delete/:id", requireOwnerSignIn, (req, res) => {
+router.delete("/delete/:id", requireBusOwnerSignIn, (req, res) => {
   return res.status(200).send({ message: "delete user account" });
 });
 
 // renew subscription
-router.put("/subscribe/:id", requireOwnerSignIn, (req, res) => {
+router.put("/subscribe/:id", requireBusOwnerSignIn, (req, res) => {
   res.send(200).message({ message: "renew subscription of the owner" });
 });
 

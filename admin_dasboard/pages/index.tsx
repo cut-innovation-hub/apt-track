@@ -40,7 +40,7 @@ const Home: NextPage = () => {
                     <Avatar
                       size="lg"
                       src={cut_buses_Admin_User?.photoURL}
-                      name={cut_buses_Admin_User?.email}
+                      name={cut_buses_Admin_User?.name}
                     />
                   </div>
                   <div>
@@ -49,7 +49,7 @@ const Home: NextPage = () => {
                         <Avatar
                           size="lg"
                           src={cut_buses_Admin_User?.photoURL}
-                          name={cut_buses_Admin_User?.email}
+                          name={cut_buses_Admin_User?.name}
                         />
                       </div>
                       <div className="flex flex-col ml-3">
@@ -60,7 +60,7 @@ const Home: NextPage = () => {
                             : curHr < 18
                             ? ' Afternoon '
                             : 'Evening'}
-                          , {cut_buses_Admin_User?.email}
+                          , {cut_buses_Admin_User?.name}
                         </h1>
                         <dl className=" flex flex-col sm:flex-row sm:flex-wrap">
                           <dt className="sr-only">Account status</dt>

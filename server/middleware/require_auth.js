@@ -35,7 +35,7 @@ exports.requireUserSignIn = (req, res, next) => {
 }
 
 // middleware for authentocating bus driver
-exports.requireOwnerSignIn = (req, res, next) => {
+exports.requireDriverSignIn = (req, res, next) => {
     if (req.headers.authorization) {
          //get token from headers
         const token = req.headers.authorization
@@ -90,7 +90,7 @@ exports.requireAdminSignIn = (req, res, next) => {
     }
 }
 
-// middleware for authenticating bus owners onlyr 
+// middleware for authenticating bus owners only
 exports.requireBusOwnerSignIn = (req, res, next) => {
     if (req.headers.authorization) {
         //get token from headers
