@@ -42,7 +42,7 @@ function DashboardNavbar({setSidebarOpen}:Props):ReactElement {
                     className="px-4 border-r border-gray-200 text-gray-400 focus:outline-none lg:hidden"
                     onClick={() => setSidebarOpen(true)}
                 >
-                    <span className="sr-only">Open sidebar</span>
+                    {/* <span className="sr-only">Open sidebar</span> */}
                     <MenuAlt1Icon className="h-6 w-6" aria-hidden="true" />
                 </button>
                 {/* Search bar */}
@@ -72,7 +72,7 @@ function DashboardNavbar({setSidebarOpen}:Props):ReactElement {
                             type="button"
                             className="bg-white p-1 rounded-full text-gray-400 hover:text-gray-500 focus:outline-none"
                         >
-                            <span className="sr-only">View notifications</span>
+                            {/* <span className="sr-only">View notifications</span> */}
                             <BellIcon className="h-6 w-6" aria-hidden="true" />
                         </button>
 
@@ -82,7 +82,7 @@ function DashboardNavbar({setSidebarOpen}:Props):ReactElement {
                                 <Menu.Button className="max-w-xs bg-white rounded-full space-x-2 flex items-center text-sm focus:outline-none lg:p-2 lg:rounded-md lg:hover:bg-gray-50">
                                     <Avatar size="sm" name={cut_buses_Admin_User?.name} src={cut_buses_Admin_User?.photoURL} />
                                     <div className="hidden text-gray-700 text-sm font-medium lg:block">
-                                        <span className="sr-only">Open user menu for </span>
+                                        {/* <span className="sr-only">Open user menu for </span> */}
                                         <Username username={cut_buses_Admin_User?.name} />
                                     </div>
                                     <ChevronDownIcon

@@ -1,6 +1,10 @@
 import { useRouter } from "next/router";
 import { useState, ReactElement, useEffect, useContext } from "react";
-import DashboardNavbar from "../components/DashboardNavbar/DashboardNavbar";
+import dynamic from "next/dynamic";
+const DashboardNavbar = dynamic(
+  () => import("../components/DashboardNavbar/DashboardNavbar"),
+  { ssr: false }
+);
 import DashboardSidebar from "../components/DashboardSidebar/DashboardSidebar";
 import { Store } from "../context/Store";
 
@@ -10,7 +14,7 @@ interface Props {
 
 function DashboardLayout({ children }: Props): ReactElement {
   const [sidebarOpen, setSidebarOpen] = useState<boolean>(false);
-  const { state, dispatch } = useContext(Store);
+  const { state } = useContext(Store);
   const { cut_buses_Admin_User } = state;
   const history = useRouter();
 
@@ -21,53 +25,24 @@ function DashboardLayout({ children }: Props): ReactElement {
   }, []);
 
   return (
-    <>
-      {cut_buses_Admin_User?.role === "bus_admin" ? (
-        <>
-          <div className="relative h-screen flex overflow-hidden bg-gray-100 text-gray-700">
-            <div className="h-full">
-              <DashboardSidebar
-                sidebarOpen={sidebarOpen}
-                setSidebarOpen={setSidebarOpen}
-              />
-            </div>
-
-            {/* // the body of the dashboard */}
-
-            <div className="flex-1 overflow-auto focus:outline-none">
-              <main className="flex-1 relative pb-8 z-0 overflow-y-auto">
-                {/* Page header */}
-                <DashboardNavbar setSidebarOpen={setSidebarOpen} />
-
-                {/* // the rest of the dashboard */}
-                {children}
-              </main>
-            </div>
+    <main className="flex flex-col h-screen">
+      <div className="flex flex-1 overflow-hidden bg-gray-100">
+        <div className="flex">
+          <DashboardSidebar
+            sidebarOpen={sidebarOpen}
+            setSidebarOpen={setSidebarOpen}
+          />
+        </div>
+        <div className="flex flex-1 flex-col">
+          <div className="flex w-full flex-col">
+            <DashboardNavbar setSidebarOpen={setSidebarOpen} />
           </div>
-        </>
-      ) : (
-        <div className="relative h-screen flex overflow-hidden bg-gray-100 text-gray-700">
-          <div className="h-full">
-            <DashboardSidebar
-              sidebarOpen={sidebarOpen}
-              setSidebarOpen={setSidebarOpen}
-            />
-          </div>
-
-          {/* // the body of the dashboard */}
-
-          <div className="flex-1 overflow-auto focus:outline-none">
-            <main className="flex-1 relative pb-8 z-0 overflow-y-auto">
-              {/* Page header */}
-              <DashboardNavbar setSidebarOpen={setSidebarOpen} />
-
-              {/* // the rest of the dashboard */}
-              <p className="flex flex-row items-center mx-auto text-gray-800 font-semibold">Please Login to your account</p>
-            </main>
+          <div className="flex flex-1 bg-blue-300 overflow-y-auto paragraph px-4">
+            {children}
           </div>
         </div>
-      )}
-    </>
+      </div>
+    </main>
   );
 }
 
