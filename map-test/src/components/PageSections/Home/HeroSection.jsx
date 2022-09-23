@@ -1,5 +1,6 @@
 import React from 'react'
 import banner1 from '../../../assets/images/banner1.png'
+import {Link} from 'react-router-dom'
 
 function HeroSection() {
   return (
@@ -45,9 +46,9 @@ function HeroSection() {
             <div className="absolute -bottom-16 left-0 right-0 ml-auto mr-auto w-11/12 z-50">
               <div className="flex flex-row items-center space-x-2 text-sm ml-4">
                 <p className="rounded-t bg-white p-2 cursor-pointer">Address</p>
-                <p className="rounded-t bg-gray-200 p-2 cursor-pointer">
+                <Link to='/map' className="rounded-t bg-gray-200 p-2 cursor-pointer">
                   Use Map
-                </p>
+                </Link>
               </div>
               <div className="flex flex-col rounded-lg w-full bg-white shadow p-4">
                 <div className="flex flex-row">
@@ -60,14 +61,14 @@ function HeroSection() {
                     <input
                       type="text"
                       placeholder="Enter Departure Address"
-                      className="bg-gray-100"
+                      className="bg-gray-100 outline-none"
                     />
                   </div>
                   <div className="flex flex-row items-center rounded overflow-hidden bg-gray-100 p-2 text-sm">
                     <input
                       type="text"
                       placeholder="Enter Destination Address"
-                      className="bg-gray-100"
+                      className="bg-gray-100 outline-none"
                     />
                   </div>
                   <div className="flex-1" />

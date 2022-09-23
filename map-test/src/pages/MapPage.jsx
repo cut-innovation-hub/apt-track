@@ -12,6 +12,7 @@ import "mapbox-gl/dist/mapbox-gl.css";
 
 import socketIOClient, { connect } from "socket.io-client";
 import axios from "axios";
+import GeneralLayout from "../layouts/GeneralLayout";
 const ENDPOINT = "wss://cut-buses.herokuapp.com/";
 
 const socket = socketIOClient(ENDPOINT, {
@@ -271,58 +272,67 @@ function MapPage() {
   }
 
   return (
-    <div className="App" style={{ width: "100vw", height: "100vh" }}>
-      <button onClick={getGeoJson}>get location</button>
-      <ReactMapGL
-        mapStyle={"mapbox://styles/mapbox/streets-v9"}
-        mapboxAccessToken={MAPBOX_TOKEN}
-        onMove={(newViewport) => {
-          // console.log(newViewport)
-          setState(newViewport.viewState);
-        }}
-        onClick={handleClick}
-        {...state}
-      >
-        <Source id="polylineLayer" type="geojson" data={dataOne}>
-          <Layer
-            id="lineLayer"
-            type="line"
-            source="my-data"
-            layout={{
-              "line-join": "round",
-              "line-cap": "round",
-            }}
-            paint={{
-              "line-color": "rgba(3, 170, 238, 0.5)",
-              "line-width": 5,
-            }}
-          />
-        </Source>
-        <Marker longitude={30.168791} latitude={-17.38824} anchor="bottom" />
-        {response && (
-          <Marker
-            longitude={response?.longitude}
-            latitude={response?.latitude}
-            anchor="bottom"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="currentColor"
-              height="24px"
-              width="24px"
+    <GeneralLayout>
+    <div className="grid grid-cols-6">
+      <div className="col-span-1">
+        sidebar
+      </div>
+      <div className="col-span-5">
+      <div className="App" style={{ width: "100vw", height: "100vh" }}>
+        {/* <button onClick={getGeoJson}>get location</button> */}
+        <ReactMapGL
+          mapStyle={"mapbox://styles/mapbox/streets-v9"}
+          mapboxAccessToken={MAPBOX_TOKEN}
+          onMove={(newViewport) => {
+            // console.log(newViewport)
+            setState(newViewport.viewState);
+          }}
+          onClick={handleClick}
+          {...state}
+        >
+          <Source id="polylineLayer" type="geojson" data={dataOne}>
+            <Layer
+              id="lineLayer"
+              type="line"
+              source="my-data"
+              layout={{
+                "line-join": "round",
+                "line-cap": "round",
+              }}
+              paint={{
+                "line-color": "rgba(3, 170, 238, 0.5)",
+                "line-width": 5,
+              }}
+            />
+          </Source>
+          <Marker longitude={30.168791} latitude={-17.38824} anchor="bottom" />
+          {response && (
+            <Marker
+              longitude={response?.longitude}
+              latitude={response?.latitude}
+              anchor="bottom"
             >
-              <path d="M3.375 4.5C2.339 4.5 1.5 5.34 1.5 6.375V13.5h12V6.375c0-1.036-.84-1.875-1.875-1.875h-8.25zM13.5 15h-12v2.625c0 1.035.84 1.875 1.875 1.875h.375a3 3 0 116 0h3a.75.75 0 00.75-.75V15z" />
-              <path d="M8.25 19.5a1.5 1.5 0 10-3 0 1.5 1.5 0 003 0zM15.75 6.75a.75.75 0 00-.75.75v11.25c0 .087.015.17.042.248a3 3 0 015.958.464c.853-.175 1.522-.935 1.464-1.883a18.659 18.659 0 00-3.732-10.104 1.837 1.837 0 00-1.47-.725H15.75z" />
-              <path d="M19.5 19.5a1.5 1.5 0 10-3 0 1.5 1.5 0 003 0z" />
-            </svg>
-          </Marker>
-        )}
-        <FullscreenControl />
-        <NavigationControl />
-        <GeolocateControl />
-      </ReactMapGL>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                height="24px"
+                width="24px"
+              >
+                <path d="M3.375 4.5C2.339 4.5 1.5 5.34 1.5 6.375V13.5h12V6.375c0-1.036-.84-1.875-1.875-1.875h-8.25zM13.5 15h-12v2.625c0 1.035.84 1.875 1.875 1.875h.375a3 3 0 116 0h3a.75.75 0 00.75-.75V15z" />
+                <path d="M8.25 19.5a1.5 1.5 0 10-3 0 1.5 1.5 0 003 0zM15.75 6.75a.75.75 0 00-.75.75v11.25c0 .087.015.17.042.248a3 3 0 015.958.464c.853-.175 1.522-.935 1.464-1.883a18.659 18.659 0 00-3.732-10.104 1.837 1.837 0 00-1.47-.725H15.75z" />
+                <path d="M19.5 19.5a1.5 1.5 0 10-3 0 1.5 1.5 0 003 0z" />
+              </svg>
+            </Marker>
+          )}
+          <FullscreenControl />
+          <NavigationControl />
+          <GeolocateControl />
+        </ReactMapGL>
+      </div>
+      </div>
     </div>
+    </GeneralLayout>
   );
 }
 
