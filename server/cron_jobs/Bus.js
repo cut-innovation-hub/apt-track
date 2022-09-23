@@ -13,7 +13,7 @@ cron.schedule('* * * * *', async function (req, res, next) {
             if (today_date === userDueDate) {
                 let find_user = await User.findById(users._id);
                 find_user.is_paid = false;
-                find_user.save()
+                await find_user.save()
             }
         }
     }

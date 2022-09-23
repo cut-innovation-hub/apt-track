@@ -9,24 +9,24 @@ router.post("/items", async (req, res) => {
   console.log("api  key is ----- ", api_key, lng, lat);
 
   try {
-    if (api_key === "Ad5F10jkBM0") {
+    // if (api_key === "Ad5F10jkBM0") {
       const newTest = new Test({
         longitude: lng,
         latitude: lat,
       });
-      //   console.log('Data received :----------- ', newTest)
+      // console.log('Data received :----------- ', newTest)
       // const saved_test = await newTest.save();
-      //pulling longitude and latitude from geocoder
-      const addressInfo = await geocoder.reverse({ lat: lat, lon: lng });
-      global.io.sockets.emit('message', addressInfo)
+      // pulling longitude and latitude from geocoder
+      // const addressInfo = await geocoder.reverse({ lat: lat, lon: lng });
+      global.io.sockets.emit('api-location-info', newTest)
       console.log("Data saved");
       return res
         .status(200)
-        .send({ message: "Data from gps", data: addressInfo });
-    } else {
-      console.error("error saving coords");
-      return res.status(400).send({ message: "Wrong api key" });
-    }
+        .send({ message: "Data from gps", data: newTest });
+    // } else {
+    //   console.error("error saving coords");
+    //   return res.status(400).send({ message: "Wrong api key" });
+    // }
     // console.log(`the data reveies`, req.body)
   } catch (error) {
     return res.status(500).send({ message: `${error}` });

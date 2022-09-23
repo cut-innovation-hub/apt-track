@@ -17,6 +17,7 @@ exports.createAPlan = async (req, res) => {
       name: name,
       price: price,
       period: period,
+      
     });
 
     // save the plan in the database
