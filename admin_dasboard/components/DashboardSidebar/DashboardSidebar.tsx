@@ -10,7 +10,8 @@ import {
     TemplateIcon,
     TrendingUpIcon,
     TruckIcon,
-    UserGroupIcon
+    UserGroupIcon,
+    MapIcon
 } from '@heroicons/react/outline'
 // import logo from '../../public/img/icon.png'
 import { Store } from '../../context/Store'
@@ -20,11 +21,9 @@ const navigation = [
     { name: 'Home', href: '/', icon: TemplateIcon, current: false },
     { name: 'Buses', href: '/dashboard/buses', icon: TruckIcon, current: false },
     { name: "Drivers", href: '/dashboard/drivers', icon: UserGroupIcon, current: false },
-    // { name: 'History', href: '/dashboard/history', icon: ClockIcon, current: false },
+    { name: 'Routes', href: '/dashboard/routes', icon: MapIcon, current: false },
     // { name: 'Balances', href: '/dashboard/balances', icon: ScaleIcon, current: false },
-    // { name: 'Cards', href: '/dashboard/cards', icon: CreditCardIcon, current: false },
     { name: 'Reports', href: '/dashboard/reports', icon: TrendingUpIcon, current: false },
-    // { name: 'Recipients', href: '/dashboard/receipts', icon: UserGroupIcon, current: false },
     { name: 'Store Settings', href: '/dashboard/settings', icon: CogIcon },
 ]
 const secondaryNavigation = [
