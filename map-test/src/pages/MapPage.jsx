@@ -15,6 +15,7 @@ import axios from "axios";
 import GeneralLayout from "../layouts/GeneralLayout";
 import BusStopComponent from "../components/BusStopComponent/BusStopComponent";
 import MapSidebar from "../components/MapSidebar/MapSidebar";
+import MapSideBarDrawer from "../components/MapSidebar/MapSideBarDrawer";
 const ENDPOINT = "wss://cut-buses.herokuapp.com/";
 
 const socket = socketIOClient(ENDPOINT, {
@@ -24,8 +25,8 @@ const socket = socketIOClient(ENDPOINT, {
 });
 
 function MapPage() {
-  const MAPBOX_TOKEN =
-    "pk.eyJ1IjoidGF0ZW5kYXp3IiwiYSI6ImNsNXRmZWhmaDBnbXIzcHAzbXRpazN5MjgifQ.eWtGUzOKvmZlA3VKEF5W_A";
+  // const MAPBOX_TOKEN = "pk.eyJ1IjoidGF0ZW5kYXp3IiwiYSI6ImNsNXRmZWhmaDBnbXIzcHAzbXRpazN5MjgifQ.eWtGUzOKvmZlA3VKEF5W_A";
+  const MAPBOX_TOKEN = process.env.REACT_APP_MAPBOX_KEY
   const [response, setResponse] = useState("");
   const [bus_location, setBusLocation] = useState({
     latitude: null,
@@ -275,11 +276,14 @@ function MapPage() {
 
   return (
     <GeneralLayout>
-      <div className="grid grid-cols-6">
-        <div className="col-span-1 flex flex-col space-y-2 p-2">
+      <div className="relative grid grid-cols-7">
+        <div className="col-span-2 md:flex hidden flex-col space-y-2 p-2">
           <MapSidebar />
         </div>
-        <div className="col-span-5">
+        <div className="md:hidden flex absolute top-4 left-4">
+          <MapSideBarDrawer />
+        </div>
+        <div className="md:col-span-5 col-span-6 bg-gray-100">
           <div className="App" style={{ width: "100vw", height: "100vh" }}>
             {/* <button onClick={getGeoJson}>get location</button> */}
             <ReactMapGL

@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from "react";
-import ReactMapGL, { Marker, Source, Layer } from "react-map-gl";
+import ReactMapGL, {
+  Marker,
+  Source,
+  Layer,
+  GeolocateControl,
+} from "react-map-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import { LocationMarkerIcon } from "@heroicons/react/solid";
 
@@ -16,18 +21,46 @@ mapboxgl.workerClass =
 type Props = {};
 
 const MapboxMap = (props: Props) => {
+  const [longitude, setLongitude] = useState(null);
+  const [latitude, setLatitude] = useState(null);
+
+  const [state, setState] = useState({
+    latitude: null,
+    longitude: null,
+    zoom: 13.8,
+    bearing: 0,
+    pitch: 0,
+    dragPan: true,
+    width: 600,
+    height: 600,
+  });
+
+  function handleClick(event: any) {
+    // var lngLat = event.lngLat;
+    setLatitude(event?.lngLat?.lat);
+    setLongitude(event?.lngLat?.lng);
+    console.log(`long -- ${longitude} : lat -- ${latitude}`);
+  }
 
   return (
     <ReactMapGL
-      initialViewState={{
-        longitude: -122.4,
-        latitude: 37.8,
-        zoom: 14,
+      style={{ width: 400, height: 300 }}
+      onClick={handleClick}
+      onMove={(newViewport: any) => {
+        // console.log(newViewport)
+        setState(newViewport.viewState);
       }}
-      style={{width: 300, height: 300}}
+      {...state}
       mapStyle={"mapbox://styles/mapbox/basic-v9"}
       mapboxAccessToken={process.env.NEXT_PUBLIC_REACT_APP_MAPBOX_ACCESS_TOKEN}
-    />
+    >
+      {longitude && (
+        <Marker longitude={longitude} latitude={latitude} anchor="bottom">
+          <LocationMarkerIcon height={20} width={20} className="text-red-600" />
+        </Marker>
+      )}
+      <GeolocateControl />
+    </ReactMapGL>
   );
 };
 

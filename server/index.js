@@ -62,6 +62,7 @@ app.use('/api/user', require('./routes/user/user'))
 app.use('/api/plan', require('./routes/plan/plan'))
 app.use('/api/locations', require('./routes/locations/locations'))
 app.use('/api/owner', require('./routes/owner/owner'))
+app.use('/api/bus-stop', require('./routes/bus_stop/bus_stop'))
 
 //not found handler
 app.use((req, res, next) => {

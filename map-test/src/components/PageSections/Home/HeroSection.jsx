@@ -44,19 +44,19 @@ function HeroSection() {
               </div>
             </div>
             <div className="absolute -bottom-16 left-0 right-0 ml-auto mr-auto w-11/12 z-50">
-              <div className="flex flex-row items-center space-x-2 text-sm ml-4">
+              <div className="flex flex-row items-center space-x-2 md:text-sm text-xs ml-4">
                 <p className="rounded-t bg-white p-2 cursor-pointer">Address</p>
                 <Link to='/map' className="rounded-t bg-gray-200 p-2 cursor-pointer">
                   Use Map
                 </Link>
               </div>
-              <div className="flex flex-col rounded-lg w-full bg-white shadow p-4">
+              <div className="flex flex-col rounded-lg w-full bg-white shadow md:p-4 p-2">
                 <div className="flex flex-row">
-                  <div className="rounded-full py-4 text-sm text-gray-500">
+                  <div className="rounded-full md:py-4 py-2 md:text-sm text-xs text-gray-500">
                     Where do you want to go?
                   </div>
                 </div>
-                <div className="flex flex-row items-center space-x-4">
+                <div className="flex flex-row items-center md:space-x-4 space-x-2">
                   <div className="flex flex-row items-center rounded overflow-hidden bg-gray-100 p-2 text-sm">
                     <input
                       type="text"

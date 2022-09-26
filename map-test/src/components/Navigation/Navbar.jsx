@@ -10,10 +10,16 @@ function Navbar() {
             <p>Logo</p>
           </Link>
           <div className="flex-1 flex flex-col items-center justify-between">
-            <div className="space-x-8 flex flex-row items-center">
+            <div className="md:hidden flex">
+              <Link to="/map">
+                <p>Locations</p>
+              </Link>
+            </div>
+            <div className="space-x-8 md:flex hidden flex-row items-center">
               <Link to="/">
                 <p>Home</p>
               </Link>
+
               <Link to="/contact">
                 <p>Contact Us</p>
               </Link>

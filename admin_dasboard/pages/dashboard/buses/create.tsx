@@ -1,11 +1,31 @@
 import { Divider, Select } from "@chakra-ui/react";
-import React from "react";
+import React, { useState } from "react";
+import BlueButton from "../../../components/Buttons/BlueButton";
 import MapboxMap from "../../../components/Map/Map";
 import DashboardLayout from "../../../layouts/DashboardLayout";
 
 type Props = {};
 
 const CreateBus = (props: Props) => {
+  const [loading, setLoading] = useState(false);
+  const [plate_name, setPlateName] = useState("");
+  const [driver, setDriver] = useState("");
+  const [description, setDescription] = useState("");
+  const [bus_type, setBusType] = useState("");
+  const [departure_location, setDepartureLocation] = useState({
+    name: "",
+    longitude: null,
+    latitude: null,
+  });
+  const [arrival_location, setArrivalLocation] = useState({
+    name: "",
+    longitude: null,
+    latitude: null,
+  });
+
+  const create_a_bus = () => {
+    console.log("create a bus");
+  };
   return (
     <DashboardLayout>
       <div className="flex flex-col w-full md:p-8">
@@ -56,6 +76,7 @@ const CreateBus = (props: Props) => {
           <div className="col-span-5 py-8">
             <div className="border-t border-gray-300 w-full" />
           </div>
+          <p className="col-span-5 text-center text-lg font-semibold">Click the actual locations on the maps provided below</p>
           <div className="col-span-5">
             <div className="grid md:grid-cols-2 grid-cols-1  gap-8">
               <div className="flex flex-col md:items-start items-center col-span-1">
@@ -84,9 +105,14 @@ const CreateBus = (props: Props) => {
           </div>
         </div>
         <div className="flex flex-col ml-auto pb-8">
-            <span className="bg-blue-700 p-2 rounded text-white font-semibold">
+          {/* <span className="bg-blue-700 p-2 rounded text-white font-semibold">
             Save Bus
-            </span>
+            </span> */}
+          <BlueButton
+            text={"create a bus"}
+            onClick={create_a_bus}
+            loading={false}
+          />
         </div>
       </div>
     </DashboardLayout>

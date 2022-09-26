@@ -95,3 +95,9 @@
 /mobile_app/.expo/
 /mobile_app/web-build/
 /mobile_app/dist/
+
+# dependencies
+/map-test/node_modules
+/map-test/.pnp
+/map-test/.pnp.js
+
