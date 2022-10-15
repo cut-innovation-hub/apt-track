@@ -18,6 +18,10 @@ const busStopSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    main_road:{
+      type:String,
+      required: true
+    }
   },
   {
     timestamps: true,

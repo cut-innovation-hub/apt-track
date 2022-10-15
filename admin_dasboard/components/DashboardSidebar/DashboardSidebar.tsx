@@ -11,7 +11,8 @@ import {
     TrendingUpIcon,
     TruckIcon,
     UserGroupIcon,
-    MapIcon
+    MapIcon,
+    StopIcon
 } from '@heroicons/react/outline'
 // import logo from '../../public/img/icon.png'
 import { Store } from '../../context/Store'
@@ -22,6 +23,8 @@ const navigation = [
     { name: 'Buses', href: '/dashboard/buses', icon: TruckIcon, current: false },
     { name: "Drivers", href: '/dashboard/drivers', icon: UserGroupIcon, current: false },
     { name: 'Routes', href: '/dashboard/routes', icon: MapIcon, current: false },
+    { name: 'Bus Stops', href: '/dashboard/bus_stops', icon: StopIcon, current: false },
+
     // { name: 'Balances', href: '/dashboard/balances', icon: ScaleIcon, current: false },
     { name: 'Reports', href: '/dashboard/reports', icon: TrendingUpIcon, current: false },
     { name: 'Store Settings', href: '/dashboard/settings', icon: CogIcon },

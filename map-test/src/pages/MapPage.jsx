@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import ReactMapGL, {
   Source,
   Layer,
@@ -8,14 +8,18 @@ import ReactMapGL, {
   GeolocateControl,
 } from "react-map-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
+import busstop from "../assets/svgs/bus-stop.svg";
 // import { socket } from './helpers/socket';
-
 import socketIOClient, { connect } from "socket.io-client";
 import axios from "axios";
 import GeneralLayout from "../layouts/GeneralLayout";
 import BusStopComponent from "../components/BusStopComponent/BusStopComponent";
 import MapSidebar from "../components/MapSidebar/MapSidebar";
 import MapSideBarDrawer from "../components/MapSidebar/MapSideBarDrawer";
+import { Tooltip } from "@chakra-ui/react";
+import { useFetch } from "../hooks/useFetch";
+import { apiUrl } from "../utils/apiUrl";
+import { Store } from "../context/Store";
 const ENDPOINT = "wss://cut-buses.herokuapp.com/";
 
 const socket = socketIOClient(ENDPOINT, {
@@ -26,24 +30,17 @@ const socket = socketIOClient(ENDPOINT, {
 
 function MapPage() {
   // const MAPBOX_TOKEN = "pk.eyJ1IjoidGF0ZW5kYXp3IiwiYSI6ImNsNXRmZWhmaDBnbXIzcHAzbXRpazN5MjgifQ.eWtGUzOKvmZlA3VKEF5W_A";
-  const MAPBOX_TOKEN = process.env.REACT_APP_MAPBOX_KEY
+  const MAPBOX_TOKEN = process.env.REACT_APP_MAPBOX_KEY;
+  const url = `${apiUrl}/api/bus-stop/all`;
   const [response, setResponse] = useState("");
-  const [bus_location, setBusLocation] = useState({
-    latitude: null,
-    longitude: null,
-  });
   const [clocked_coords, setClockedCoords] = useState();
-  const [start_coords, setStartCoords] = useState({
-    latitude: null,
-    longitude: null,
-  });
+  const [bus_stops, setBusStops] = useState();
+  const { state: store_state } = useContext(Store);
+  const { current_coords } = store_state;
 
-  const [end_coords, setEndCoords] = useState({
-    latitude: null,
-    longitude: null,
-  });
+  console.log(current_coords);
 
-  const [state, setState] = useState({
+  const [viewport, setViewport] = useState({
     latitude: null,
     longitude: null,
     zoom: 13.8,
@@ -55,11 +52,21 @@ function MapPage() {
   });
 
   useEffect(() => {
+    const getData = async () => {
+      const { data } = await axios.get(url);
+      // console.log(data)
+      setBusStops(data?.bus_stops);
+    };
+
+    getData();
+  }, []);
+
+  useEffect(() => {
     const getInitialCoordinates = async () => {
       await navigator.geolocation.getCurrentPosition(
         (pos) =>
-          setState({
-            ...state,
+          setViewport({
+            ...viewport,
             // latitude: pos.coords.latitude,
             // longitude: pos.coords.longitude,
             longitude: 30.168791,
@@ -71,26 +78,16 @@ function MapPage() {
     getInitialCoordinates();
   }, []);
 
-  // console.log(state)
-
   useEffect(() => {
     socket.on("connection", () => {
       console.log(socket.id);
     });
     socket.on("api-location-info", (data) => {
       setResponse(data);
-      console.log("from ssocket", data);
+      // console.log("from ssocket", data);
     });
   }, [socket]);
   // console.log('after sicket call', response)
-
-  const getGeoJson = async () => {
-    const { data } = await axios.get(
-      `https://api.mapbox.com/directions/v5/mapbox/driving/30.170080803129395%2C-17.387620344999988%3B30.20881645111325%2C-17.349320129199?alternatives=true&geometries=geojson&language=en&overview=full&steps=true&access_token=pk.eyJ1IjoidGF0ZW5kYXp3IiwiYSI6ImNsNXRmZWhmaDBnbXIzcHAzbXRpazN5MjgifQ.eWtGUzOKvmZlA3VKEF5W_A`
-    );
-
-    console.log(data);
-  };
 
   const dataOne = {
     type: "Feature",
@@ -268,6 +265,15 @@ function MapPage() {
     },
   };
 
+  const dataTwo = {
+    type: "Feature",
+    properties: {},
+    geometry: {
+      type: "LineString",
+      coordinates: current_coords?.routes?.geometry?.coordinates,
+    },
+  };
+
   function handleClick(event) {
     // var lngLat = event.lngLat;
     setClockedCoords(event);
@@ -278,7 +284,7 @@ function MapPage() {
     <GeneralLayout>
       <div className="relative grid grid-cols-7">
         <div className="col-span-2 md:flex hidden flex-col space-y-2 p-2">
-          <MapSidebar />
+          <MapSidebar bus_stops={bus_stops} />
         </div>
         <div className="md:hidden flex absolute top-4 left-4">
           <MapSideBarDrawer />
@@ -291,10 +297,10 @@ function MapPage() {
               mapboxAccessToken={MAPBOX_TOKEN}
               onMove={(newViewport) => {
                 // console.log(newViewport)
-                setState(newViewport.viewState);
+                setViewport(newViewport.viewState);
               }}
               onClick={handleClick}
-              {...state}
+              {...viewport}
             >
               <Source id="polylineLayer" type="geojson" data={dataOne}>
                 <Layer
@@ -311,11 +317,27 @@ function MapPage() {
                   }}
                 />
               </Source>
+
               <Marker
                 longitude={30.168791}
                 latitude={-17.38824}
                 anchor="bottom"
               />
+              {bus_stops?.map((item, index) => (
+                <Marker
+                  longitude={item?.coords?.lng}
+                  latitude={item?.coords?.lat}
+                >
+                  <Tooltip rounded={'md'} hasArrow placement='top' label={item?.name} aria-label="A tooltip">
+                    <img
+                      src={busstop}
+                      alt="bu stop icon"
+                      height={28}
+                      width={28}
+                    />
+                  </Tooltip>
+                </Marker>
+              ))}
               {response && (
                 <Marker
                   longitude={response?.longitude}

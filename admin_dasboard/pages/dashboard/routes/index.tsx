@@ -1,7 +1,12 @@
 import Link from 'next/link'
-import React from 'react'
+import React, { useContext } from 'react'
 import AddRouteDrawer from '../../../components/Drawers/AddRouteDrawer'
+import ManageRoutesTable from '../../../components/Tables/ManageRoutesTable'
+import { Store } from '../../../context/Store'
+import { useAuthFetch } from '../../../hooks/useAuthFetch'
+import { useFetch } from '../../../hooks/useFetch'
 import DashboardLayout from '../../../layouts/DashboardLayout'
+import { apiUrl } from '../../../utils/apiUrl'
 
 type Props = {}
 
@@ -15,6 +20,9 @@ const BusStops = (props: Props) => {
             <AddRouteDrawer />
           </Link>
         </div>
+        <>
+          <ManageRoutesTable />
+        </>
       </div>
     </DashboardLayout>
   )

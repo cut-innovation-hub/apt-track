@@ -15,7 +15,7 @@ router.post("/items", async (req, res) => {
         latitude: lat,
       });
       // console.log('Data received :----------- ', newTest)
-      // const saved_test = await newTest.save();
+      const saved_test = await newTest.save();
       // pulling longitude and latitude from geocoder
       // const addressInfo = await geocoder.reverse({ lat: lat, lon: lng });
       global.io.sockets.emit('api-location-info', newTest)

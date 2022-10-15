@@ -16,6 +16,7 @@ exports.createABusStop = async (req, res, next) => {
         lng: lng,
       },
       createdBy: _user._id,
+      main_road: '6347c2c22502494b259c12c4'
     });
 
     // save the new bus stop
@@ -34,8 +35,10 @@ exports.createABusStop = async (req, res, next) => {
 // /api/bus-stop/all
 exports.getAllBusStops = async (req, res, next) => {
   try {
+    const {lng, lat} = req.body
+    const all_bustops = await BusStop.find({})
     console.log("get all bus stops");
-    return res.status(200).send({message: 'get all bus stops'})
+    return res.status(200).send({message: 'got all get all bus stops successfully', bus_stops: all_bustops})
   } catch (error) {
     next(error);
   }

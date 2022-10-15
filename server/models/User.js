@@ -31,7 +31,15 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       required: true,
       default: false
-    }
+    },
+    email_key:{
+      type: String,
+      required: [true, 'there is no key']
+    },
+    email_key_success:{
+      type: String,
+      default: false
+    },
   },
   {
     timestamps: true,
