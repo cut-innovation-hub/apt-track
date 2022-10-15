@@ -3,9 +3,9 @@ import { Link } from "react-router-dom";
 
 function Navbar() {
   return (
-    <div className="flex shadow">
+    <div className="flex shadow bg-blue-900">
       <div className="max-w-7xl w-full mx-auto font-semibold ">
-        <div className="flex flex-row items-center h-16 text-sm text-gray-700 px-2">
+        <div className="flex flex-row items-center h-16 text-sm text-white px-2">
           <Link to="/">
             <p>Logo</p>
           </Link>
