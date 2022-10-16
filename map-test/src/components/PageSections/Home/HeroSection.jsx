@@ -15,7 +15,7 @@ function HeroSection() {
         backgroundRepeat: "no-repeat",
         width: '100%',
         height: '100%'
-      }} className="w-full mx-auto py-16">
+      }} className="w-full mx-auto py-16 mt-16 z-40">
         <div className="mx-auto max-w-7xl px-2 ">
           <div className="relative  rounded-3xl">
             <div className="absolute inset-0 rounded-3xl overflow-hidden">
@@ -41,9 +41,9 @@ function HeroSection() {
               </p>
               <div className="mx-auto mt-10 max-w-sm sm:flex sm:max-w-none sm:justify-center">
                 <div className="space-y-4 sm:mx-auto sm:inline-grid sm:grid-cols-2 sm:gap-5 sm:space-y-0">
-                  <div className="flex cursor-pointer items-center justify-center rounded-md border border-transparent bg-white px-4 py-3 text-base font-medium text-blue-primary hover:bg-indigo-50 sm:px-8">
+                  <Link to='/map' className="flex cursor-pointer items-center shadow justify-center rounded-md border border-transparent bg-white px-4 py-3 text-base font-medium text-blue-primary hover:bg-indigo-50 sm:px-8">
                     Locate
-                  </div>
+                  </Link>
 
                   <div>
                     <a target={'_blank'} href='https://cut-hub-admin.vercel.app' className="flex items-center justify-center rounded-md border border-transparent bg-blue-900 bg-opacity-60 px-4 py-3 text-base font-medium text-white hover:bg-opacity-70 sm:px-8">

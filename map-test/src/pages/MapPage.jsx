@@ -282,7 +282,7 @@ function MapPage() {
 
   return (
     <GeneralLayout>
-      <div className="relative grid grid-cols-7">
+      <div className="relative grid grid-cols-7 mt-16">
         <div className="col-span-2 md:flex hidden flex-col space-y-2 p-2">
           <MapSidebar bus_stops={bus_stops} />
         </div>

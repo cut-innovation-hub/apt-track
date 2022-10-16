@@ -44,7 +44,7 @@ function ThirdHomeSection() {
                 </div>
               </div>
             </div>
-            <div className="absolute -bottom-16 left-0 right-0 ml-auto mr-auto w-11/12 z-50">
+            <div className="z-30 absolute -bottom-16 left-0 right-0 ml-auto mr-auto w-11/12 z-50">
               <div className="flex flex-row items-center space-x-2 md:text-sm text-xs ml-4">
                 <p className="rounded-t bg-white p-2 cursor-pointer">Address</p>
                 <Link to='/map' className="rounded-t bg-gray-200 p-2 cursor-pointer">

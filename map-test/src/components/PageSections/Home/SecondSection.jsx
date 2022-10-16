@@ -28,9 +28,9 @@ function SecondSection() {
 
   ];
   return (
-    <div className="max-w-7xl mx-auto py-16">
+    <div className="max-w-7xl mx-auto py-16 px-2">
       <div className="flex flex-col">
-        <div className="grid grid-cols-4 gap-8">
+        <div className="grid md:grid-cols-4 grid-cols-1 gap-8">
           {card_items.map((item, index) => (
             <HomeCardComponent
               icon={item.icon}
