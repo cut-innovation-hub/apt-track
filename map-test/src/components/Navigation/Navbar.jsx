@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import MapSideBarDrawer from "../MapSidebar/MapSideBarDrawer";
 
 function Navbar() {
   const location = useLocation();
@@ -33,9 +34,14 @@ function Navbar() {
         }  ` : `text-gray-700 bg-white `} max-w-7xl w-full mx-auto font-semibold `}
       >
         <div className="flex flex-row items-center h-16 text-sm  px-2">
+          <div className="md:flex hidden">
           <Link to="/">
             <p>Logo</p>
           </Link>
+          </div>
+          <div className="md:hidden z-50 flex absolute top-4 left-4">
+          <MapSideBarDrawer />
+        </div>
           <div className="flex-1 flex flex-col items-center justify-between">
             <div className="md:hidden flex">
               <Link to="/map">

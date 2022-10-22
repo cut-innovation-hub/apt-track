@@ -27,7 +27,12 @@ export const getDrivingLength = async (string_to) => {
   const { data } = await axios.get(
     `https://api.mapbox.com/directions/v5/mapbox/driving/${string_to}?alternatives=true&annotations=distance%2Cduration&geometries=geojson&language=en&overview=full&steps=true&access_token=${ACCESS_TOKEN}`
   );
-  return data.routes[0].distance;
+
+  // turn to kilometers
+  if (data.routes[0].distance > 1000) {
+    return `${getRoundedNumber(data.routes[0].distance / 1000)} km`;
+  }
+  return `${getRoundedNumber(data.routes[0].distance)} m`;
 };
 
 // get the time taken for wallking on the road

@@ -111,9 +111,7 @@ function MapPage() {
             bus_stop_loading={state?.status === "fetching"}
           />
         </div>
-        <div className="md:hidden flex absolute top-4 left-4">
-          <MapSideBarDrawer />
-        </div>
+       
         <div className="md:col-span-5 col-span-6 bg-gray-100">
           <div className="App" style={{ width: "100vw", height: "100vh" }}>
             {/* <button onClick={getGeoJson}>get location</button> */}

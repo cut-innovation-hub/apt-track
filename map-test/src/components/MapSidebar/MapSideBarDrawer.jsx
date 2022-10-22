@@ -12,15 +12,16 @@ import {
   Input,
 } from "@chakra-ui/react";
 import { MenuAlt3Icon } from "@heroicons/react/outline";
+import MapSidebar from "./MapSidebar";
 
 function MapSideBarDrawer() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = React.useRef();
   return (
     <>
-      <Button ref={btnRef} colorScheme="teal" size={'sm'} onClick={onOpen}>
-        <MenuAlt3Icon height={24} width={24} />
-      </Button>
+      <div ref={btnRef} colorScheme="teal" size={'sm'} onClick={onOpen}>
+        <MenuAlt3Icon className="text-gray-700" height={24} width={24} />
+      </div>
       <Drawer
         isOpen={isOpen}
         placement="left"
@@ -30,18 +31,11 @@ function MapSideBarDrawer() {
         <DrawerOverlay />
         <DrawerContent>
           <DrawerCloseButton />
-          <DrawerHeader>Create your account</DrawerHeader>
 
           <DrawerBody>
-            <Input placeholder="Type here..." />
+            <MapSidebar />
           </DrawerBody>
 
-          <DrawerFooter>
-            <Button variant="outline" mr={3} onClick={onClose}>
-              Cancel
-            </Button>
-            <Button colorScheme="blue">Save</Button>
-          </DrawerFooter>
         </DrawerContent>
       </Drawer>
     </>
