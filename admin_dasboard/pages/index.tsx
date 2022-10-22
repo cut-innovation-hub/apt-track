@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 
 function login() {
   const router = useRouter()
+  
   const card_details = [
     {
       small_heading: "Lorem Ipson",

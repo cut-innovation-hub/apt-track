@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 // schema to represent how to but table will have
 const busSchema = new mongoose.Schema(
   {
-    bus_number: {
+    plate_number: {
       type: String,
       required: true,
     },
@@ -11,34 +11,32 @@ const busSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    bus_driver: {
+      type: String,
+    },
 
     // sensor number to identify the sensor
-    bus_sensor_number:{
-        type: String,
-        required: true
-    },
-
-    // addresses are for search query purposes
-    destination_address: {
+    bus_sensor_number: {
       type: String,
     },
-
-    departure_address: {
-      type: String,
-    },
-
-    // longitude and litutude from arduino and/or geocoder
-    destination_lat: {
+    bus_owner: {
       type: String,
       required: true,
     },
-    departure_long: {
+    bus_status: {
       type: String,
-      required: true,
+      default: ['stationary', 'on_route', 'damaged']
     },
-    bus_owner:{
-      type:String,
-      required: true
+    bus_route:{
+      type: String,
+      default: ''
+    },
+    bus_type:{
+      type: String
+    },
+    picture: {
+      type: String,
+      default: ''
     }
   },
   {

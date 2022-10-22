@@ -10,16 +10,6 @@ import {
   useDisclosure,
   Button,
   Input,
-  // for popover
-  Popover,
-  PopoverTrigger,
-  PopoverContent,
-  PopoverHeader,
-  PopoverBody,
-  PopoverFooter,
-  PopoverArrow,
-  PopoverCloseButton,
-  PopoverAnchor,
 } from "@chakra-ui/react";
 import ReactMapGL, {
   Marker,
@@ -29,9 +19,6 @@ import ReactMapGL, {
 } from "react-map-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import { LocationMarkerIcon } from "@heroicons/react/solid";
-// added the following 6 lines.
-import mapboxgl from "mapbox-gl";
-import LocationPopOver from "../PopOvers/LocationPopOver";
 import BlueButton from "../Buttons/BlueButton";
 import axios from "axios";
 import { apiUrl } from "../../utils/apiUrl";

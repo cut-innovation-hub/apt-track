@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 function Navbar() {
+  const location = useLocation();
   const [scrollPosition, setScrollPosition] = useState(0);
   const handleScroll = () => {
     const position = window.pageYOffset;
@@ -17,8 +18,20 @@ function Navbar() {
   }, []);
 
   return (
-    <div className={`${scrollPosition > 70 ? "bg-white shadow " : "bg-blue-900 "} flex z-50  fixed w-full`}>
-      <div className={` ${scrollPosition > 70 ? "text-gray-700 bg-white " : "text-white "} max-w-7xl w-full mx-auto font-semibold `}>
+    <div
+      className={`${
+        location.pathname === "/"
+          ? `${
+              scrollPosition > 70 ? "bg-white shadow " : "bg-blue-900 "
+            }  z-50  fixed `
+          : ` bg-white text-gray-700`
+      } w-full flex`}
+    >
+      <div
+        className={` ${location.pathname === '/' ? `${
+          scrollPosition > 70 ? "text-gray-700 bg-white " : "text-white "
+        }  ` : `text-gray-700 bg-white `} max-w-7xl w-full mx-auto font-semibold `}
+      >
         <div className="flex flex-row items-center h-16 text-sm  px-2">
           <Link to="/">
             <p>Logo</p>
@@ -46,7 +59,13 @@ function Navbar() {
             </div>
           </div>
           <Link to="/login">
-            <p className={`${scrollPosition > 70 ? "bg-blue-900 text-white hover:bg-blue-800 shadow " : "bg-white text-blue-900 hover:bg-blue-100 "}  rounded-full py-2 px-4`}>
+            <p
+              className={`${location.pathname === '/' ? `${
+                scrollPosition > 70
+                  ? "bg-blue-900 text-white hover:bg-blue-800 shadow "
+                  : "bg-white text-blue-900 hover:bg-blue-100 "
+              }  ` : ` bg-blue-900 text-white hover:bg-blue-800 shadow`} rounded-full py-2 px-4`}
+            >
               Login
             </p>
           </Link>

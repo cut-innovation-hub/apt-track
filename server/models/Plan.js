@@ -17,7 +17,14 @@ const planSchema = new mongoose.Schema(
     description:{
       type:String,
       default: ''
-    }
+    },
+    status: {
+      type: String,
+      default: ''
+    },
+    heading:{
+      type:String,
+    },
   },
   {
     timestamps: true,

@@ -9,13 +9,16 @@ const routeSchema = new mongoose.Schema(
     createdBy: {
       type: String,
     },
-    road_length:{
-      type: Number
+    road_length: {
+      type: Number,
     },
-    waypoints:Array,
+    waypoints: Array,
     road_name: {
-      type: String
-    }
+      type: String,
+    },
+    route_description: {
+      type: String,
+    },
   },
   {
     timestamps: true,

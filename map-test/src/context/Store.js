@@ -8,7 +8,9 @@ const initialState = {
     },
     cut_buses_Admin_User: Cookies.get('cut_buses_Admin_User') ? JSON.parse(Cookies.get('cut_buses_Admin_User')) : null,
     search_query: '',
-    current_coords: null
+    walking_road_coords: null,
+    bus_route_coords: null,
+    selected_road_id: ''
 }
 
 export const Store = createContext();
@@ -49,7 +51,11 @@ function reducer(state={search_category:''}, action) {
         case 'SET_POLL_URL':
             return {...state, poll_url: action.payload}
         case 'SET_COORDS':
-            return {...state, current_coords: action.payload}
+            return {...state, walking_road_coords: action.payload}
+        case 'SET_BUS_ROUTE':
+            return {...state, bus_route_coords: action.payload}
+        case 'SET_SELECTED_ROAD_ID':
+            return {...state, selected_road_id: action.payload}
         default:
             return state
     }

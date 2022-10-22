@@ -13,6 +13,9 @@ import {
 import { useRouter } from "next/router";
 import { useToast } from "@chakra-ui/react";
 import axios from "axios";
+import { Store } from "../../context/Store";
+import { apiUrl } from "../../utils/apiUrl";
+import { useAuthFetch } from "../../hooks/useAuthFetch";
 
 function ManageDrivers() {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -21,6 +24,15 @@ function ManageDrivers() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const toast = useToast();
+
+  const { state: store_state } = useContext(Store);
+  const { cut_buses_Admin_User } = store_state;
+  const token = cut_buses_Admin_User?.token;
+  const url = `${apiUrl}/api/driver/company/all`;
+
+  const state = useAuthFetch(url, token);
+
+  console.log("all drivers", state);
 
   const confirm_delete_item = async (product_id: string) => {
     console.log("delte item from table");
@@ -87,58 +99,65 @@ function ManageDrivers() {
               </thead>
               <tbody className="divide-y divide-gray-200 bg-white">
                 <>
-                  {[1, 2, 3, 4, 5]?.map((product: any, index: number) => (
+                  {state.data.drivers?.map((driver: any, index: number) => (
                     <>
                       <tr key={index}>
-                        <td
-                          className="whitespace-nowrap px-6 py-4"
-                          onClick={() =>
-                            router.push(
-                              `/product/description/$'{product?._id'}`
-                            )
-                          }
-                        >
-                          <div className="flex items-center">
+                        <td className="whitespace-nowrap px-6 py-4">
+                          <div
+                            onClick={() =>
+                              router.push(
+                                `/dashboard/drivers/single/${driver._id}`
+                              )
+                            }
+                            className="flex items-center"
+                          >
                             <div className="h-10 w-10 flex-shrink-0 rounded-full bg-gray-100">
-                              {/* <img
-                                  className="h-10 w-10 rounded-full"
-                                  src={product.pictures[0]}
-                                  alt=""
-                                /> */}
-                              <Avatar name="tatenda" />
+                              <Avatar name={driver.name} src={driver.picture} />
                             </div>
                             <div className="ml-4">
                               <div className="max-w-xs overflow-hidden text-sm font-medium text-gray-900">
-                                {"tatenda bako"}
+                                {driver.name}
                               </div>
                             </div>
                           </div>
                         </td>
                         <td className="whitespace-nowrap px-6 py-4">
                           <div className="text-sm text-gray-500">
-                            {"63-2081422y07"}
+                            {driver.id_number}
                           </div>
                         </td>
 
                         <td className="whitespace-nowrap px-6 py-4">
                           <div className="text-sm text-gray-500">
-                            {"male"}
+                            {driver.gender}
                           </div>
                         </td>
                         <td className="whitespace-nowrap px-6 py-4">
                           <div className="text-sm text-gray-500">
-                            {"0771445411"}
+                            {driver.phone_number}
                           </div>
                         </td>
                         <td className="whitespace-nowrap px-6 py-4">
                           <div className="text-sm text-gray-500">
-                            {"ASDSDF88876asd"}
+                            {driver.bus
+                              ? driver.bus.plate_number
+                              : "Not Assigned"}
                           </div>
                         </td>
                         <td className="whitespace-nowrap px-6 py-4">
-                          <span className="inline-flex rounded-full animate-pulse bg-green-700 px-2 text-xs font-semibold leading-5 text-white">
-                            On Route
-                          </span>
+                          {driver?.bus.bus_status === "on_route" ? (
+                            <span className="inline-flex rounded-full  animate-pulse  bg-green-700 px-2 text-xs font-semibold leading-5 text-white">
+                              On Route
+                            </span>
+                          ) : driver?.bus.bus_status === "damaged" ? (
+                            <span className="inline-flex rounded-full bg-red-700 px-2 text-xs font-semibold leading-5 text-white">
+                              Damaged
+                            </span>
+                          ) : (
+                            <span className="inline-flex rounded-full bg-blue-700 px-2 text-xs font-semibold leading-5 text-white">
+                              Stationary
+                            </span>
+                          )}
                         </td>
                         <td className="whitespace-nowrap px-6 py-4 text-right text-sm font-medium">
                           <div className="flex flex-row items-center space-x-2">

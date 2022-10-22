@@ -1,5 +1,9 @@
 import React, { ReactElement, useState, useContext } from "react";
-import { TrashIcon, PencilIcon } from "@heroicons/react/outline";
+import {
+  TrashIcon,
+  PencilIcon,
+  ChevronDownIcon,
+} from "@heroicons/react/outline";
 import {
   Modal,
   ModalOverlay,
@@ -8,15 +12,24 @@ import {
   ModalBody,
   useDisclosure,
   Button,
-  Avatar,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  MenuItemOption,
+  MenuGroup,
+  MenuOptionGroup,
+  MenuDivider,
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useToast } from "@chakra-ui/react";
 import axios from "axios";
 
-type Props = {};
+type Props = {
+  table_info: any;
+};
 
-const ManageBusesTable = (props: Props) => {
+const ManageBusesTable = ({ table_info }: Props) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [product_name, setProductName] = useState("");
   const [product_id, setProductId] = useState("");
@@ -25,8 +38,8 @@ const ManageBusesTable = (props: Props) => {
   const toast = useToast();
 
   const confirm_delete_item = async (product_id: string) => {
-   console.log('delte item from table')
-  }
+    console.log("delte item from table");
+  };
 
   const set_delete_item = (id: string, name: string) => {
     onOpen();
@@ -54,11 +67,12 @@ const ManageBusesTable = (props: Props) => {
                   >
                     Driver
                   </th>
+
                   <th
                     scope="col"
                     className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500"
                   >
-                    TO/FROM
+                    Type
                   </th>
                   <th
                     scope="col"
@@ -66,11 +80,12 @@ const ManageBusesTable = (props: Props) => {
                   >
                     TO/FROM
                   </th>
+
                   <th
                     scope="col"
                     className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500"
                   >
-                    quantity
+                    Road Length
                   </th>
                   <th
                     scope="col"
@@ -88,94 +103,93 @@ const ManageBusesTable = (props: Props) => {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200 bg-white">
-                  <>
-                    {[1,2,3,4,5]?.map((product: any, index: number) => (
+                <>
+                  {table_info?.data?.all_buses?.map(
+                    (bus: any, index: number) => (
                       <>
                         <tr key={index}>
-                          <td
-                            className="whitespace-nowrap px-6 py-4"
-                            onClick={() =>
-                              router.push(
-                                `/product/description/$'{product?._id'}`
-                              )
-                            }
-                          >
+                          <td className="whitespace-nowrap px-6 py-4">
                             <div className="flex items-center">
-                              <div className="h-10 w-10 flex-shrink-0 rounded-full bg-gray-100">
-                                {/* <img
-                                  className="h-10 w-10 rounded-full"
-                                  src={product.pictures[0]}
-                                  alt=""
-                                /> */}
-                                <Avatar name="asd" />
-                              </div>
                               <div className="ml-4">
                                 <div className="max-w-xs overflow-hidden text-sm font-medium text-gray-900">
-                                  {'plate'}
+                                  {bus.plate_number}
                                 </div>
                               </div>
                             </div>
                           </td>
                           <td className="whitespace-nowrap px-6 py-4">
                             <div className="text-sm text-gray-500">
-                              {'tatenda'}
+                              {bus.bus_driver}
                             </div>
                           </td>
 
                           <td className="whitespace-nowrap px-6 py-4">
                             <div className="text-sm text-gray-500">
-                              {'harare'}
+                              {bus.bus_type}
                             </div>
                           </td>
+
                           <td className="whitespace-nowrap px-6 py-4">
                             <div className="text-sm text-gray-500">
-                              {'bulawayo'}
+                              {bus.route.road_name}
                             </div>
                           </td>
+
                           <td className="whitespace-nowrap px-6 py-4">
                             <div className="text-sm text-gray-500">
-                              {'product.countInStock'}
+                              {bus.route.road_length}
                             </div>
                           </td>
                           <td className="whitespace-nowrap px-6 py-4">
-                            <span className="inline-flex rounded-full animate-pulse bg-green-700 px-2 text-xs font-semibold leading-5 text-white">
-                              On Route
-                            </span>
+                            {bus.bus_status === "stationary" ? (
+                              <span className="inline-flex rounded-full  bg-blue-700 px-2 text-xs font-semibold leading-5 text-white">
+                                Stationary
+                              </span>
+                            ) : bus.bus_status === "damaged" ? (
+                              <span className="inline-flex rounded-full bg-red-700 px-2 text-xs font-semibold leading-5 text-white">
+                                Damaged
+                              </span>
+                            ) : (
+                              <span className="inline-flex rounded-full animate-pulse bg-green-700 px-2 text-xs font-semibold leading-5 text-white">
+                                On Route
+                              </span>
+                            )}
                           </td>
                           <td className="whitespace-nowrap px-6 py-4 text-right text-sm font-medium">
                             <div className="flex flex-row items-center space-x-2">
-                              <span
-                                onClick={() =>
-                                  set_delete_item('product._id', 'plate')
-                                }
-                                className="cursor-pointer"
-                              >
-                                <TrashIcon
-                                  height={20}
-                                  width={20}
-                                  className="text-red-400 "
-                                />
-                              </span>
-                              <span
-                                onClick={() =>
+                              <Menu size={'xs'}>
+                                <MenuButton
+                                  as={Button}
+                                  rightIcon={
+                                    <ChevronDownIcon height={16} width={16} />
+                                  }
+                                >
+                                  Actions
+                                </MenuButton>
+                                <MenuList>
+                                  <MenuItem
+                                    onClick={() =>
+                                      set_delete_item("product._id", "plate")
+                                    }
+                                  >
+                                    Delete
+                                  </MenuItem>
+                                  <MenuItem  onClick={() =>
                                   router.push(
-                                    `/dashboard/inventory/edit/${'product?._id'}`
+                                    `/dashboard/inventory/edit/${"product?._id"}`
                                   )
-                                }
-                                className="cursor-pointer"
-                              >
-                                <PencilIcon
-                                  height={20}
-                                  width={20}
-                                  className="cursor-pointer text-gray-500"
-                                />
-                              </span>
+                                }>Edit Details</MenuItem>
+                                </MenuList>
+                              </Menu>
+
+                           
                             </div>
                           </td>
                         </tr>
                       </>
-                    ))}
-                  </>
+                    )
+                  )}
+                </>
               </tbody>
             </table>
 

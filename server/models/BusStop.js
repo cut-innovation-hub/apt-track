@@ -21,6 +21,13 @@ const busStopSchema = new mongoose.Schema(
     main_road:{
       type:String,
       required: true
+    },
+    description:{
+      type: String,
+    },
+    picture:{
+      type: String,
+      default: ''
     }
   },
   {

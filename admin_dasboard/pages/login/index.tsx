@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { EyeIcon, EyeOffIcon } from "@heroicons/react/outline";
 import BlueButton from "../../components/Buttons/BlueButton";
 import { useRouter } from "next/router";
@@ -19,14 +19,7 @@ function login() {
   const history = useRouter();
   const { redirect } = history.query;
 
-  const { state, dispatch } = useContext(Store);
-  const { cut_buses_Admin_User } = state;
-
-  useEffect(() => {
-    if (cut_buses_Admin_User?.approved) {
-      history.push("/");
-    }
-  }, []);
+  const { dispatch } = useContext(Store);
 
   const login_user_handler = async () => {
     setLoading(true);
@@ -43,7 +36,7 @@ function login() {
         });
         setTimeout(() => {
           //@ts-ignore
-          history.push(redirect || "/");
+          history.push(redirect || "/dashboard");
         }, 1000);
         setLoading(false);
         toast({

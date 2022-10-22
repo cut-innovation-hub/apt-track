@@ -23,6 +23,7 @@ import axios from "axios";
 import { apiUrl } from "../../utils/apiUrl";
 import { Store } from "../../context/Store";
 import { getError } from "../../utils/getError";
+import UploadImage from "../UploadComponents/UploadImage";
 
 const ACCESS_TOKEN =
   "pk.eyJ1IjoidGF0ZW5kYXp3IiwiYSI6ImNsNXRmZWhmaDBnbXIzcHAzbXRpazN5MjgifQ.eWtGUzOKvmZlA3VKEF5W_A";
@@ -38,6 +39,7 @@ function AddBusStopDrawer({}: Props) {
   const [route_coords, setRouteCoords] = useState<any>([]);
   const [save_loading, setSaveLoading] = useState(false);
   const [road_name, setRoadName] = useState("");
+  const [picture, setPicture] = useState("");
 
   const [state, setState] = useState({
     latitude: null,
@@ -60,6 +62,7 @@ function AddBusStopDrawer({}: Props) {
           name: road_name,
           lng: longitude,
           lat: latitude,
+          picture: picture
         },
         {
           headers: {
@@ -67,6 +70,8 @@ function AddBusStopDrawer({}: Props) {
           },
         }
       );
+      setRoadName('')
+      setPicture('')
       console.log("items saved sucessfully!", data);
       setSaveLoading(false);
     } catch (error) {
@@ -94,16 +99,18 @@ function AddBusStopDrawer({}: Props) {
           <DrawerCloseButton />
           <DrawerHeader>Add Bus Stop</DrawerHeader>
           <DrawerBody>
-            <form
-              id="my-form"
-              onSubmit={(e) => {
-                e.preventDefault();
-                console.log("submitted");
-              }}
-              className=""
-            >
-              <Input name="nickname" placeholder="Search route ..." />
-            </form>
+            <div className="col-span-2 flex flex-col mb-8">
+            <p className="text-center py-2 text-gray-700 ">
+              Select a picture for your bus stop
+            </p>
+              <UploadImage
+                setPictureForUpload={setPicture}
+                folder_name={"BusStop"}
+              />
+            </div>
+            <div>
+              <Input name="route" placeholder="Search route ..." />
+            </div>
             <p className="text-center py-2 text-gray-700 ">
               Select the precise location of your bus stop below
             </p>

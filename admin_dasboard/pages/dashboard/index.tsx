@@ -1,6 +1,6 @@
-import type { NextPage } from 'next'
-import DashboardCard from '../../components/DashboardCard/DashboardCard'
-import DashboardLayout from '../../layouts/DashboardLayout'
+import type { NextPage } from "next";
+import DashboardCard from "../../components/DashboardCard/DashboardCard";
+import DashboardLayout from "../../layouts/DashboardLayout";
 import {
   ScaleIcon,
   PencilIcon,
@@ -9,25 +9,36 @@ import {
   ShoppingBagIcon,
   CogIcon,
   CheckCircleIcon,
-} from '@heroicons/react/outline'
-import { Avatar } from '@chakra-ui/react'
-import { useContext } from 'react'
-import { Store } from '../../context/Store'
-import BlueButton from '../../components/Buttons/BlueButton'
-import { useRouter } from 'next/router'
+} from "@heroicons/react/outline";
+import { Avatar } from "@chakra-ui/react";
+import { useContext } from "react";
+import { Store } from "../../context/Store";
+import BlueButton from "../../components/Buttons/BlueButton";
+import { useRouter } from "next/router";
+import PassengersActivity from "../../components/Charts/PassengersActivity";
 
 const Home: NextPage = () => {
   const { state } = useContext(Store);
   const { cut_buses_Admin_User } = state;
-  const history = useRouter()
-
-  console.log(cut_buses_Admin_User)
+  const history = useRouter();
 
   // gettign todats data
-  var today = new Date()
-  var curHr = today.getHours()
+  var today = new Date();
+  var curHr = today.getHours();
+
+  const dashboard_items = [
+    {
+      icon: <ScaleIcon className="h-6 w-6 text-red-600" aria-hidden="true" />,
+      bg_color: "bg-red-200",
+      text_color: "text-red-700",
+      number: 0,
+      location: "/dashboard",
+      name: 'Account Balance'
+    },
+  ];
+
   return (
-   <DashboardLayout>
+    <DashboardLayout>
       <main className="relative z-0 flex-1 overflow-y-auto pb-8">
         {/* Page header */}
         <div className="bg-white shadow">
@@ -54,12 +65,12 @@ const Home: NextPage = () => {
                       </div>
                       <div className="flex flex-col ml-3">
                         <h1 className=" md:text-2xl text-xl font-bold leading-7 text-gray-900 sm:truncate sm:leading-9">
-                          Good{' '}
+                          Good{" "}
                           {curHr < 12
-                            ? ' Morning'
+                            ? " Morning"
                             : curHr < 18
-                            ? ' Afternoon '
-                            : 'Evening'}
+                            ? " Afternoon "
+                            : "Evening"}
                           , {cut_buses_Admin_User?.name}
                         </h1>
                         <dl className=" flex flex-col sm:flex-row sm:flex-wrap">
@@ -89,30 +100,26 @@ const Home: NextPage = () => {
               </div>
               <div className="mt-6 flex space-x-3 md:mt-0 md:ml-4">
                 <div className="mr-2 flex">
-                  {cut_buses_Admin_User?.role === 'user' ? (
+                  {cut_buses_Admin_User?.role === "user" ? (
                     <BlueButton
                       text="Add Bus"
                       outline
                       onClick={() =>
-                        history.push(
-                          '/login?redirect=/dashboard/buses/add'
-                        )
+                        history.push("/login?redirect=/dashboard/buses/add")
                       }
                     />
                   ) : (
                     <BlueButton
                       text="Add Bus"
                       outline
-                      onClick={() =>
-                        history.push('/dashboard/buses/add')
-                      }
+                      onClick={() => history.push("/dashboard/buses/add")}
                     />
                   )}
                 </div>
                 <div className="flex">
                   <BlueButton
                     text="Manage Buses"
-                    onClick={() => history.push('/dashboard/buses')}
+                    onClick={() => history.push("/dashboard/buses")}
                   />
                 </div>
               </div>
@@ -138,7 +145,7 @@ const Home: NextPage = () => {
                 location="dashboard/reports"
                 amount={0}
                 loading={false}
-                bg_color={'bg-red-200'}
+                bg_color={"bg-red-200"}
               />
               <DashboardCard
                 name="Manage Buses"
@@ -151,7 +158,7 @@ const Home: NextPage = () => {
                 location="/dashboard/buses"
                 amount={0}
                 loading={false}
-                bg_color={'bg-green-200'}
+                bg_color={"bg-green-200"}
               />
               <DashboardCard
                 icon={
@@ -201,16 +208,20 @@ const Home: NextPage = () => {
                 }
                 name="Settings"
                 location="/dashboard/settings"
-                amount={'store settings'}
+                amount={"store settings"}
                 loading={false}
                 bg_color="bg-gray-200"
               />
             </div>
           </div>
         </div>
-      </main>
-   </DashboardLayout>
-  )
-}
 
-export default Home
+        <div className="mt-8 max-w-7xl mx-auto  px-4 sm:px-6 lg:px-8">
+          <PassengersActivity />
+        </div>
+      </main>
+    </DashboardLayout>
+  );
+};
+
+export default Home;
