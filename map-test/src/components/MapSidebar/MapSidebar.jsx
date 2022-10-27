@@ -19,6 +19,11 @@ function MapSidebar({ bus_stops, bus_stop_loading }) {
   const { selected_road_id } = state_store;
   const [selected_travel_type, setSelectedTravelType] = useState("");
 
+  const hard_corded_coords = {
+    lng: 30.1777657,
+    lat:  -17.3829378
+  }
+
   const set_search_query = async (e) => {
     e.preventDefault();
     const url = `${apiUrl}/api/routes/get`;
