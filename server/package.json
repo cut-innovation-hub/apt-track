@@ -24,6 +24,7 @@
     "node-geocoder": "^4.2.0",
     "socket.io": "^4.5.1",
     "swagger-jsdoc": "^6.2.1",
-    "swagger-ui-express": "^4.4.0"
+    "swagger-ui-express": "^4.4.0",
+    "uuid": "^9.0.0"
   }
 }

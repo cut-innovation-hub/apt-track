@@ -1,6 +1,7 @@
 const User = require("../models/User");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const { randomUUID } = require("crypto");
 
 // regular express to verify email format
 const emailRegexp = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
@@ -8,7 +9,7 @@ const emailRegexp = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
 // register user controller
 exports.registerUser = async (req, res) => {
   //get filds from request
-  const { email, password, agreed, role } = req.body;
+  let { email, password, agreed, role, method, username } = req.body;
 
   //validate forms
   if (!agreed) {
@@ -17,7 +18,11 @@ exports.registerUser = async (req, res) => {
       .send({ message: "Your have to agree to our terms and conditions" });
   } else if (!emailRegexp.test(email)) {
     return res.status(401).send({ message: "Please enter a valid email" });
-  } else if (password.length < 6) {
+  }
+  if (method === "google") {
+    password = randomUUID();
+  }
+  if (password.length < 6) {
     return res.status(401).send({ message: "Invalid password" });
   }
 
@@ -26,7 +31,7 @@ exports.registerUser = async (req, res) => {
     let user = await User.findOne({ email: req.body.email });
 
     if (user) {
-      return res.status(500).send({ message: "Email already registered" });
+      return res.status(500).send({ message: "Account already exists" });
     } else {
       //create new user object
       const newUser = new User({
@@ -34,6 +39,8 @@ exports.registerUser = async (req, res) => {
         email: email,
         password: bcrypt.hashSync(password, 12),
         terms_agreed: agreed,
+        authMethod: method,
+        username: username,
       });
 
       //save in database
@@ -79,7 +86,7 @@ exports.loginUser = async (req, res) => {
           _id: _user._id,
           role: _user.role,
           emailVerified: _user.emailApproved,
-          token: token
+          token: token,
         };
 
         return res.send({ ...user, message: "logged in sucessfully" });

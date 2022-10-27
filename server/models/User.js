@@ -20,26 +20,35 @@ const userSchema = new mongoose.Schema(
     },
     role: {
       type: String,
-      enum: ["user", "driver", "admin", "bus_admin"],
+      enum: ["passenger", "driver", "admin", "bus_admin"],
       default: "user",
     },
-    emailApproved:{
+    emailApproved: {
       type: Boolean,
-      default: true
+      default: true,
     },
-    terms_agreed:{
+    terms_agreed: {
       type: Boolean,
       required: true,
-      default: false
+      default: false,
     },
-    email_key:{
+    email_key: {
       type: String,
-      required: [true, 'there is no key']
+      default: '',
     },
-    email_key_success:{
+    email_key_success: {
       type: String,
-      default: false
+      default: false,
     },
+    authMethod: {
+      type: String,
+      enum: ["email", "google"],
+      default: "email",
+    },
+    username: {
+      type: String,
+      default: ''
+    }
   },
   {
     timestamps: true,

@@ -12,11 +12,11 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/map" element={<MapPage />} />
-        <Route path="/register" element={<Register />} />
         <Route path="/payment" element={<Payment />} />
-        <Route path="/login" element={<Login />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/about" element={<About />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<Login />} />
         <Route exact path="/" element={<Home />} />
       </Routes>
     </BrowserRouter>
