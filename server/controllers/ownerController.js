@@ -1,6 +1,10 @@
 const Owner = require("../models/Owner");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const Bus = require("../models/Bus");
+const BusStop = require("../models/BusStop");
+const Route = require("../models/Route");
+const Driver = require("../models/Driver");
 
 // regular express to verify email format
 const emailRegexp = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
@@ -173,3 +177,36 @@ exports.createAnOwnerAccount = async (req, res) => {
     return res.status(500).send({ message: `${error}` });
   }
 };
+
+//get owner account details
+// /api/owner/details
+// get reuquest
+// requires quth
+exports.getOwnerAccountDetails = async (req, res, next) =>{
+  try {
+    const _user = req.user // the logged in user
+
+    // account info needed
+    let account = await Owner.findOne({_id: _user._id});
+
+
+    const all_buses = await Bus.countDocuments({bus_owner: _user._id})
+    const all_bus_stops = await BusStop.countDocuments({createdBy: _user._id})
+    const all_routes = await Route.countDocuments({createdBy: _user._id})
+    const all_drivers = await Driver.countDocuments({createdBy: _user._id})
+
+    return res.status(200).send({
+      account: {
+        email: account.email,
+        reports: account.reports
+      },
+      all_buses,
+      all_bus_stops,
+      all_routes,
+      all_drivers
+    })
+
+  } catch (error) {
+    next(error)
+  }
+}

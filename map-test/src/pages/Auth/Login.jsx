@@ -124,7 +124,7 @@ function Login() {
                     loading={loading}
                   />
                 </div>
-                <Link to="/regsiter">
+                <Link to="/register">
                   <div className="text-center text-gray-500 hover:text-gray-700 font-semibold text-sm my-4 cursor-pointer">
                     Not registered? Register instead!
                   </div>

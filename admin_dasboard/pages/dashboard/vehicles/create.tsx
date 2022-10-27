@@ -125,7 +125,7 @@ const CreateBus = (props: Props) => {
           </div>
           <div className="flex flex-col md:col-span-3 col-span-5">
             <label htmlFor="plate" className="text-gray-700 text-md  pb-2">
-              Enter bus type
+              Enter vehicle type
             </label>
             <Select onChange={(e) => setBusType(e.target.value)} bg={"white"}>
               <option value="bus">bus</option>
@@ -136,9 +136,7 @@ const CreateBus = (props: Props) => {
           <div className="col-span-5 py-4">
             <div className="border-t border-gray-300 w-full" />
           </div>
-          <p className="col-span-5 text-center font-semibold">
-            Click the actual locations on the maps provided below
-          </p>
+         
           {selected_road?.name ? (
             <div className="flex w-full col-span-5 h-full flex-1 flex flex-col">
               <div className="flex flex-row items-center  pb-2">
@@ -160,7 +158,7 @@ const CreateBus = (props: Props) => {
               <div className="col-span-5">
                 <div className="flex flex-col">
                   <label htmlFor="route_input text-sm font-semibold">
-                    Select the route of your bus below (Editable)
+                    Select the road of your vehicle below (Editable)
                   </label>
                   <div className="my-2 w-full">
                     <div

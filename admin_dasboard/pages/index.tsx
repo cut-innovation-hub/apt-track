@@ -1,13 +1,17 @@
 import React from "react";
-import { CurrencyYenIcon, XIcon } from "@heroicons/react/outline";
+import { CurrencyYenIcon } from "@heroicons/react/outline";
 import SubscriptionItem from "../components/SubscriptionItem/SubscriptionItem";
-import { DotsVerticalIcon, QuestionMarkCircleIcon, XCircleIcon } from "@heroicons/react/solid";
+import {
+  DotsVerticalIcon,
+  QuestionMarkCircleIcon,
+  XCircleIcon,
+} from "@heroicons/react/solid";
 import { Avatar, Divider } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 
 function login() {
-  const router = useRouter()
-  
+  const router = useRouter();
+
   const card_details = [
     {
       small_heading: "Lorem Ipson",
@@ -69,31 +73,42 @@ function login() {
         <p className="text-gry-500 text-center py-8">
           Join Our growing community of drivers
         </p>
-       
-       <div className="flex flex-row space-x-8 pb-8">
-          <div onClick={() => router.push('/login')} className="flex flex-row p-4 rounded-xl cursor-pointer bg-white shadow">
+
+        <div className="flex flex-row space-x-8 pb-8">
+          <div
+            onClick={() => router.push("/login")}
+            className="flex flex-row p-4 rounded-xl cursor-pointer bg-white shadow"
+          >
             <XCircleIcon height={16} width={16} className="text-red-600" />
             <div className="flex flex-col items-center pt-2">
               <Avatar height={16} width={16} name="Apt-Track" />
               <p>Dashboard</p>
             </div>
-            <DotsVerticalIcon height={20} width={20} className="text-gray-700" />
+            <DotsVerticalIcon
+              height={20}
+              width={20}
+              className="text-gray-700"
+            />
           </div>
           <div className="flex flex-row p-4 rounded-xl cursor-pointer bg-white shadow">
             <XCircleIcon height={16} width={16} className="text-red-600" />
             <div className="flex flex-col items-center pt-2">
-              <QuestionMarkCircleIcon height={60} width={60}  />
+              <QuestionMarkCircleIcon height={60} width={60} />
               <p>Help</p>
             </div>
-            <DotsVerticalIcon height={20} width={20} className="text-gray-700" />
+            <DotsVerticalIcon
+              height={20}
+              width={20}
+              className="text-gray-700"
+            />
           </div>
-       </div>
-       <div className="flex space-x-4 pb-8 flex-row items-center">
-         <Divider borderColor={'#a1a1aa'} />
-         <p className="text-gray-900 font-semibold text-lg">Or</p>
-         <Divider borderColor={'#a1a1aa'} />
-       </div>
-      
+        </div>
+        <div className="flex space-x-4 pb-8 flex-row items-center">
+          <Divider borderColor={"#a1a1aa"} />
+          <p className="text-gray-900 font-semibold text-lg">Or</p>
+          <Divider borderColor={"#a1a1aa"} />
+        </div>
+
         <div className="flex flex-row items-center">
           <div className="w-full grid md:grid-cols-3 grid-cols-1 md:gap-12 gap-4">
             {card_details.map((item, index) => (

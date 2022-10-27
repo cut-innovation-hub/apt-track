@@ -8,13 +8,18 @@ function BusStopComponent({ name, coords, picture }) {
   const current_location = useCurrentLocation()
   const [distance, setDistance] = useState(0)
 
+  const hard_corded_coords = {
+    lng: 30.1777657,
+    lat:  -17.3829378
+  }
+
   // get distances from current location to each bus stop
   useEffect(() => {
     const getDistances = async () => {
       const walking_distances = await getWalkingLength(
         createRoutesString([
-          current_location?.lng,
-          current_location?.lat,
+          hard_corded_coords?.lng,
+          hard_corded_coords?.lat,
           coords?.lng,
           coords?.lat,
         ])
@@ -23,13 +28,13 @@ function BusStopComponent({ name, coords, picture }) {
     };
 
     getDistances();
-  }, [current_location?.lat]);
+  }, [hard_corded_coords?.lat]);
   
   
   const { dispatch } = useContext(Store);
 
   const set_coords =async (coords) => {
-    const string_to = `${current_location.lng},${current_location.lat};${coords?.lng},${coords?.lat}`;
+    const string_to = `${hard_corded_coords.lng},${hard_corded_coords.lat};${coords?.lng},${coords?.lat}`;
     const data = await getWalikingRoadCoordinates(string_to)
     dispatch({ type: "SET_COORDS", payload: data });
     dispatch({ type: "SET_BUS_ROUTE", payload: null });

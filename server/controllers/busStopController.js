@@ -5,7 +5,7 @@ const BusStop = require("../models/BusStop");
 // /api/bus-stop/create
 exports.createABusStop = async (req, res, next) => {
   try {
-    const { name, lng, lat, picture } = req.body; // values from client
+    const { name, lng, lat, picture, main_road } = req.body; // values from client
     const _user = req.user; // user who created the bus stop
 
     // the new bus - stop object from the bus stop schema
@@ -16,7 +16,7 @@ exports.createABusStop = async (req, res, next) => {
         lng: lng,
       },
       createdBy: _user._id,
-      main_road: "6347c2c22502494b259c12c4",
+      main_road: main_road,
       picture: picture
     });
 
@@ -200,7 +200,7 @@ exports.getSearchedBusStops = async (req, res, next) => {
 
 // get company bus stops
 // get request
-// /api/bus-stop/get
+// /api/bus-stop/company/get
 exports.getCompanyBusStops = async (req, res, next) => {
   try {
     const _user = req.user
@@ -259,7 +259,6 @@ exports.getCompanyBusStops = async (req, res, next) => {
     query.push({
       //@ts-ignore
       $project: {
-        "route.createdAt": 0,
         "route.createdBy": 0,
         "route.waypoints": 0,
         "route.createdAt": 0,

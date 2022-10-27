@@ -1,5 +1,6 @@
 import React from 'react'
 import { CheckIcon, XIcon } from "@heroicons/react/outline";
+import { Link } from 'react-router-dom';
 
 const SubscriptionItem = ({
     small_heading,
@@ -80,9 +81,9 @@ const SubscriptionItem = ({
         </div>
         <div className={`${bg_color !== "bg-white" ? "border-blue-700 " : "border-gray-200 " } border-t `}/>
         <div className="flex">
-          <span className={`${bg_color === 'bg-white' ? "bg-blue-900 text-white " : "bg-white "} px-2 py-3 text-center w-full font-semibold rounded-lg text-sm capitalize`}>
+          <Link to='/payment' className={`${bg_color === 'bg-white' ? "bg-blue-900 text-white " : "bg-white "} px-2 py-3 text-center w-full font-semibold rounded-lg text-sm capitalize`}>
               Choose Subscription
-          </span>
+          </Link>
         </div>
       </div>
     );

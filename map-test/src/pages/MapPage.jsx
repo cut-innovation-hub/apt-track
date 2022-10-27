@@ -11,7 +11,6 @@ import "mapbox-gl/dist/mapbox-gl.css";
 import socketIOClient from "socket.io-client";
 import GeneralLayout from "../layouts/GeneralLayout";
 import MapSidebar from "../components/MapSidebar/MapSidebar";
-import MapSideBarDrawer from "../components/MapSidebar/MapSideBarDrawer";
 import { useFetch } from "../hooks/useFetch";
 import { apiUrl } from "../utils/apiUrl";
 import { Store } from "../context/Store";
@@ -30,7 +29,6 @@ function MapPage() {
   const MAPBOX_TOKEN = process.env.REACT_APP_MAPBOX_KEY;
   const url = `${apiUrl}/api/bus-stop/all`;
   const [response, setResponse] = useState("");
-  const [clocked_coords, setClockedCoords] = useState();
   const { state: store_state, dispatch } = useContext(Store);
   const { walking_road_coords, bus_route_coords } = store_state;
   const current_location = useCurrentLocation();
@@ -49,14 +47,19 @@ function MapPage() {
   // fetch bus stops from api
   const state = useFetch(url);
 
+  const hard_corded_coords = {
+    lng: 30.1777657,
+    lat:  -17.3829378
+  }
+
   // set view port to use current location as initial place
   useEffect(() => {
     setViewport({
       ...viewport,
-      longitude: current_location?.lng,
-      latitude: current_location?.lat,
+      longitude:hard_corded_coords.lng,
+      latitude: hard_corded_coords.lat,
     })
-  }, [current_location?.lng, current_location?.lng]);
+  }, [hard_corded_coords?.lng, hard_corded_coords?.lng]);
 
   useEffect(() => {
     socket.on("connection", () => {
@@ -64,7 +67,6 @@ function MapPage() {
     });
     socket.on("api-location-info", (data) => {
       setResponse(data);
-      // console.log("from ssocket", data);
     });
   }, [socket]);
 
@@ -87,7 +89,7 @@ function MapPage() {
   };
 
   const set_step_coords = async (coords) => {
-    const string_to = `${current_location.lng},${current_location.lat};${coords?.lng},${coords?.lat}`;
+    const string_to = `${hard_corded_coords.lng},${hard_corded_coords.lat};${coords?.lng},${coords?.lat}`;
     const data = await getWalikingRoadCoordinates(string_to)
     dispatch({
       type: "SET_COORDS",
@@ -95,12 +97,6 @@ function MapPage() {
     });
     dispatch({ type: "SET_BUS_ROUTE", payload: null });
   };
-
-  function handleClick(event) {
-    // var lngLat = event.lngLat;
-    setClockedCoords(event);
-    console.log(clocked_coords);
-  }
 
   return (
     <GeneralLayout>
@@ -120,10 +116,8 @@ function MapPage() {
               mapStyle={"mapbox://styles/mapbox/streets-v9"}
               mapboxAccessToken={MAPBOX_TOKEN}
               onMove={(newViewport) => {
-                console.log(newViewport)
                 setViewport(newViewport.viewState);
               }}
-              onClick={handleClick}
               {...viewport}
             >
 
@@ -167,8 +161,8 @@ function MapPage() {
 
               {/* // users current location */}
               <Marker
-                longitude={current_location.lng}
-                latitude={current_location.lat}
+                longitude={hard_corded_coords.lng}
+                latitude={hard_corded_coords.lat}
                 anchor="bottom"
               />
 

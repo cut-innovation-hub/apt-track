@@ -1,21 +1,23 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Home from "../src//pages/Home";
-import About from "./pages/About";
-import Login from "./pages/Auth/Login";
+import Payment from "./pages/Payment/Payment";
 import Register from "./pages/Auth/Register";
+import Login from "./pages/Auth/Login";
 import Contact from "./pages/Contact";
 import MapPage from "./pages/MapPage";
+import Home from "../src/pages/Home";
+import About from "./pages/About";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Home />} />
         <Route path="/map" element={<MapPage />} />
-        <Route path="/regsiter" element={<Register />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/payment" element={<Payment />} />
         <Route path="/login" element={<Login />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/about" element={<About />} />
+        <Route exact path="/" element={<Home />} />
       </Routes>
     </BrowserRouter>
   );

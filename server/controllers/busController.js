@@ -11,8 +11,15 @@ exports.createABus = async (req, res, next) => {
       */
 
     const _user = req.user; // logged in user
-    const { number_plate, status, driver, description, bus_route, bus_type, picture } =
-      req.body; // info from form
+    const {
+      number_plate,
+      status,
+      driver,
+      description,
+      bus_route,
+      bus_type,
+      picture,
+    } = req.body; // info from form
 
     const user_info = await Owner.findOne({ _id: _user._id }); // check if user is an owner
 
@@ -37,7 +44,7 @@ exports.createABus = async (req, res, next) => {
       bus_status: status,
       bus_route: bus_route,
       bus_type: bus_type,
-      picture: picture
+      picture: picture,
     });
 
     const saved_bus = await newBus.save();
@@ -83,6 +90,7 @@ exports.getCompanyBuses = async (req, res, next) => {
             { bus_description: { $regex: req.query.keyword, $options: "i" } },
             { bus_status: { $regex: req.query.keyword, $options: "i" } },
             { bus_route: { $regex: req.query.keyword, $options: "i" } },
+            { bus_driver: { $regex: req.query.keyword, $options: "i" } },
           ],
         },
       });

@@ -3,6 +3,7 @@ const {
   createAnOwnerAccount,
   registerOwnerAccount,
   loginOwnerAccount,
+  getOwnerAccountDetails,
 } = require("../../controllers/ownerController");
 const {
   requireBusOwnerSignIn,
@@ -27,6 +28,12 @@ router.post("/create", requireBusOwnerSignIn, createAnOwnerAccount);
 
 // edit an owner account
 router.put("/edit/:id", requireBusOwnerSignIn, createAnOwnerAccount);
+
+//get owner account details
+// /api/owner/details
+// get reuquest
+// requires quth
+router.get('/details', requireBusOwnerSignIn, getOwnerAccountDetails)
 
 //get a single bus account
 router.get("/single/:id", requireAdminSignIn, (req, res) => {

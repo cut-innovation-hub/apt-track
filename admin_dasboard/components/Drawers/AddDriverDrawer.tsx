@@ -22,12 +22,15 @@ import SelectBusModal from "../Modals/SelectBusModal";
 import UploadImage from "../UploadComponents/UploadImage";
 import SingleBusComponent from "../SingleBusComponent/SingleBusComponent";
 
-type Props = {};
+type Props = {
+  onOpen:any
+  onClose:any
+  isOpen:any
+};
 
-const AddDriverDrawer = (props: Props) => {
+const AddDriverDrawer = ({onOpen,onClose,isOpen}: Props) => {
   const { state: store_state } = useContext(Store);
   const { cut_buses_Admin_User } = store_state;
-  const { isOpen, onOpen, onClose } = useDisclosure();
   const [save_loading, setSaveLoading] = useState(false);
 
   // form fields
@@ -83,12 +86,7 @@ const AddDriverDrawer = (props: Props) => {
 
   return (
     <>
-      <div
-        onClick={onOpen}
-        className="flex bg-blue-700 text-white p-2 rounded font-semibold hover:bg-blue-800 cursor-pointer"
-      >
-        Add A Driver
-      </div>
+     
       <Drawer size={"xl"} isOpen={isOpen} onClose={onClose}>
         <DrawerOverlay />
         <DrawerContent>

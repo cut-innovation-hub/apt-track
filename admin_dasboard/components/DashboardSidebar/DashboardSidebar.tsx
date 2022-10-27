@@ -18,7 +18,7 @@ import DashboardSidebarLink from "../DashboardSidebarLink/DashboardSidebarLink";
 
 const navigation = [
   { name: "Home", href: "/dashboard", icon: TemplateIcon, current: false },
-  { name: "Buses", href: "/dashboard/buses", icon: TruckIcon, current: false },
+  { name: "Vehicles", href: "/dashboard/vehicles", icon: TruckIcon, current: false },
   {
     name: "Drivers",
     href: "/dashboard/drivers",

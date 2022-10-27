@@ -7,14 +7,14 @@ app.use(cors());
 const morgan = require("morgan");
 const connectDB = require("./utils/mongo");
 const swaggerUI = require("swagger-ui-express");
-const swaggerJsDoc = require('swagger-jsdoc')
+const swaggerJsDoc = require("swagger-jsdoc");
 
 // a server for socket io
-var server = require('http').createServer(app);
-const socketio = require("socket.io")
-const WebSockets = require('./helpers/WebSockets')
+var server = require("http").createServer(app);
+const socketio = require("socket.io");
+const WebSockets = require("./helpers/WebSockets");
 global.io = socketio(server);
-global.io.on('connection', WebSockets.connection)
+global.io.on("connection", WebSockets.connection);
 
 // declaring the port if not given use port 5000
 const port = process.env.PORT || 5000;
@@ -38,7 +38,12 @@ const swaggerOPtions = {
     },
     servers: ["http://localhost:5000"],
   },
-  apis: ["./index.js","./routes/auth/*.js","./routes/user/*.js", "./routes/plan/*.js"],
+  apis: [
+    "./index.js",
+    "./routes/auth/*.js",
+    "./routes/user/*.js",
+    "./routes/plan/*.js",
+  ],
 };
 
 const swaggerDocs = swaggerJsDoc(swaggerOPtions);
@@ -53,19 +58,18 @@ app.get("/", (req, res) => {
   });
 });
 
-
-//user defined routes
-app.use('/api/auth/register', require('./routes/auth/register'))
-app.use('/api/auth/login', require('./routes/auth/login'))
-app.use('/api/bus', require('./routes/bus/bus'))
-app.use('/api/user', require('./routes/user/user'))
-app.use('/api/plan', require('./routes/plan/plan'))
-app.use('/api/locations', require('./routes/locations/locations'))
-app.use('/api/owner', require('./routes/owner/owner'))
-app.use('/api/bus-stop', require('./routes/bus_stop/bus_stop'))
-app.use('/api/routes', require('./routes/routes/routes'))
-app.use('/api/plan-item', require('./routes/plan/plan_item'))
-app.use('/api/driver', require('./routes/drivers/driver'))
+//user defined routeso
+app.use("/api/auth/register", require("./routes/auth/register"));
+app.use("/api/auth/login", require("./routes/auth/login"));
+app.use("/api/bus", require("./routes/bus/bus"));
+app.use("/api/user", require("./routes/user/user"));
+app.use("/api/plan", require("./routes/plan/plan"));
+app.use("/api/locations", require("./routes/locations/locations"));
+app.use("/api/owner", require("./routes/owner/owner"));
+app.use("/api/bus-stop", require("./routes/bus_stop/bus_stop"));
+app.use("/api/routes", require("./routes/routes/routes"));
+app.use("/api/plan-item", require("./routes/plan/plan_item"));
+app.use("/api/driver", require("./routes/drivers/driver"));
 
 //not found handler
 app.use((req, res, next) => {

@@ -20,7 +20,7 @@ router.post("/create", requireBusOwnerSignIn, createABusStop);
 
 // get company bus stops
 // get request
-// /api/bus-stop/get
+// /api/bus-stop/company/get
 router.get("/company/get", requireBusOwnerSignIn, getCompanyBusStops);
 
 // get a single bus-stop

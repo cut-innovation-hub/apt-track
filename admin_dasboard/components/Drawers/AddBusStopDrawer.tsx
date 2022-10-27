@@ -10,6 +10,7 @@ import {
   useDisclosure,
   Button,
   Input,
+  Divider,
 } from "@chakra-ui/react";
 import ReactMapGL, {
   Marker,
@@ -24,9 +25,7 @@ import { apiUrl } from "../../utils/apiUrl";
 import { Store } from "../../context/Store";
 import { getError } from "../../utils/getError";
 import UploadImage from "../UploadComponents/UploadImage";
-
-const ACCESS_TOKEN =
-  "pk.eyJ1IjoidGF0ZW5kYXp3IiwiYSI6ImNsNXRmZWhmaDBnbXIzcHAzbXRpazN5MjgifQ.eWtGUzOKvmZlA3VKEF5W_A";
+import SelectRoadModal from "../Modals/SelectRoadModal";
 
 type Props = {};
 
@@ -36,10 +35,10 @@ function AddBusStopDrawer({}: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [longitude, setLongitude] = useState<any>(null);
   const [latitude, setLatitude] = useState<any>(null);
-  const [route_coords, setRouteCoords] = useState<any>([]);
   const [save_loading, setSaveLoading] = useState(false);
   const [road_name, setRoadName] = useState("");
   const [picture, setPicture] = useState("");
+  const [road, setRoad] = useState<any>();
 
   const [state, setState] = useState({
     latitude: null,
@@ -62,7 +61,8 @@ function AddBusStopDrawer({}: Props) {
           name: road_name,
           lng: longitude,
           lat: latitude,
-          picture: picture
+          picture: picture,
+          main_road: road._id,
         },
         {
           headers: {
@@ -70,8 +70,8 @@ function AddBusStopDrawer({}: Props) {
           },
         }
       );
-      setRoadName('')
-      setPicture('')
+      setRoadName("");
+      setPicture("");
       console.log("items saved sucessfully!", data);
       setSaveLoading(false);
     } catch (error) {
@@ -85,6 +85,16 @@ function AddBusStopDrawer({}: Props) {
     setLatitude(event?.lngLat?.lat);
     setLongitude(event?.lngLat?.lng);
   }
+
+  const dataOne = {
+    type: "Feature",
+    properties: {},
+    geometry: {
+      type: "LineString",
+      coordinates: road?.coords,
+    },
+  };
+
   return (
     <>
       <div
@@ -100,16 +110,29 @@ function AddBusStopDrawer({}: Props) {
           <DrawerHeader>Add Bus Stop</DrawerHeader>
           <DrawerBody>
             <div className="col-span-2 flex flex-col mb-8">
-            <p className="text-center py-2 text-gray-700 ">
-              Select a picture for your bus stop
-            </p>
+              <p className="text-center py-2 text-gray-700 ">
+                Select a picture for your bus stop
+              </p>
               <UploadImage
                 setPictureForUpload={setPicture}
                 folder_name={"BusStop"}
               />
             </div>
-            <div>
-              <Input name="route" placeholder="Search route ..." />
+            {road && (
+              <p className="text-center bg-gray-100 rounded p-2">
+                {road.road_name}
+              </p>
+            )}
+
+            {road && (
+              <div className="flex flex-row items-center space-x-4 py-4">
+                <Divider />
+                <p>Or</p>
+                <Divider />
+              </div>
+            )}
+            <div className="mb-4">
+              <SelectRoadModal selected_road={road} setRoad={setRoad} />
             </div>
             <p className="text-center py-2 text-gray-700 ">
               Select the precise location of your bus stop below
@@ -128,6 +151,23 @@ function AddBusStopDrawer({}: Props) {
                 process.env.NEXT_PUBLIC_REACT_APP_MAPBOX_ACCESS_TOKEN
               }
             >
+              {road && (
+                <Source id="polylineLayer" type="geojson" data={dataOne}>
+                  <Layer
+                    id="lineLayer"
+                    type="line"
+                    source="my-data"
+                    layout={{
+                      "line-join": "round",
+                      "line-cap": "round",
+                    }}
+                    paint={{
+                      "line-color": "rgba(3, 170, 238, 0.5)",
+                      "line-width": 5,
+                    }}
+                  />
+                </Source>
+              )}
               {longitude && (
                 <>
                   <Marker

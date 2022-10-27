@@ -16,6 +16,8 @@ import { Store } from "../../context/Store";
 import BlueButton from "../../components/Buttons/BlueButton";
 import { useRouter } from "next/router";
 import PassengersActivity from "../../components/Charts/PassengersActivity";
+import { useAuthFetch } from "../../hooks/useAuthFetch";
+import { apiUrl } from "../../utils/apiUrl";
 
 const Home: NextPage = () => {
   const { state } = useContext(Store);
@@ -25,15 +27,62 @@ const Home: NextPage = () => {
   // gettign todats data
   var today = new Date();
   var curHr = today.getHours();
+  const url = `${apiUrl}/api/owner/details`;
+  const token = cut_buses_Admin_User?.token;
 
+  const user = useAuthFetch(url, token);
   const dashboard_items = [
     {
       icon: <ScaleIcon className="h-6 w-6 text-red-600" aria-hidden="true" />,
       bg_color: "bg-red-200",
       text_color: "text-red-700",
-      number: 0,
-      location: "/dashboard",
-      name: 'Account Balance'
+      number: 100,
+      location: "/dashboard/balances",
+      name: "Account Balance",
+    },
+    {
+      icon: <PencilIcon className="h-6 w-6 text-blue-600" aria-hidden="true" />,
+      bg_color: "bg-blue-200",
+      text_color: "text-blue-700",
+      number: user?.data?.all_buses,
+      location: "/dashboard/buses",
+      name: "Manage Buses",
+    },
+    {
+      icon: <ArchiveIcon className="h-6 w-6 text-green-600" aria-hidden="true" />,
+      bg_color: "bg-green-200",
+      text_color: "text-green-700",
+      number: user?.data?.all_drivers,
+      location: "/dashboard/drivers",
+      name: "Manage Drivers",
+    },
+    {
+      icon: (
+        <CreditCardIcon className="h-6 w-6 text-blue-600" aria-hidden="true" />
+      ),
+      bg_color: "bg-blue-200",
+      text_color: "text-blue-700",
+      number: user?.data?.all_buses,
+      location: "/dashboard/invoices",
+      name: "Cards & Payments",
+    },
+    {
+      icon: (
+        <ShoppingBagIcon className="h-6 w-6 text-indigo-600" aria-hidden="true" />
+      ),
+      bg_color: "bg-indigo-200",
+      text_color: "text-indigo-700",
+      number: user?.data?.all_bus_stops,
+      location: "/dashboard/bus_stops",
+      name: "Bus Stops",
+    },
+    {
+      icon: <CogIcon className="h-6 w-6 text-gray-600" aria-hidden="true" />,
+      bg_color: "bg-gray-200",
+      text_color: "text-gray-700",
+      number: 'Account Settings',
+      location: "/dashboard/settings",
+      name: "Settings",
     },
   ];
 
@@ -134,84 +183,16 @@ const Home: NextPage = () => {
             </h2>
             <div className="mt-2 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
               {/* Card */}
-              <DashboardCard
-                name="Account balance"
-                icon={
-                  <ScaleIcon
-                    className="h-6 w-6 text-red-600"
-                    aria-hidden="true"
-                  />
-                }
-                location="dashboard/reports"
-                amount={0}
-                loading={false}
-                bg_color={"bg-red-200"}
-              />
-              <DashboardCard
-                name="Manage Buses"
-                icon={
-                  <PencilIcon
-                    className="h-6 w-6 text-green-600"
-                    aria-hidden="true"
-                  />
-                }
-                location="/dashboard/buses"
-                amount={0}
-                loading={false}
-                bg_color={"bg-green-200"}
-              />
-              <DashboardCard
-                icon={
-                  <ArchiveIcon
-                    className="h-6 w-6 text-blue-600"
-                    aria-hidden="true"
-                  />
-                }
-                name="Manage Drivers"
-                location="/dashboard/drivers"
-                amount={0}
-                loading={false}
-                bg_color="bg-blue-200"
-              />
-              <DashboardCard
-                icon={
-                  <CreditCardIcon
-                    className="h-6 w-6 text-indigo-600"
-                    aria-hidden="true"
-                  />
-                }
-                name="Cards & Payments"
-                location="/dashboard/cards"
-                amount={0}
-                loading={false}
-                bg_color="bg-indigo-200"
-              />
-              <DashboardCard
-                icon={
-                  <ShoppingBagIcon
-                    className="h-6 w-6 text-cyan-600"
-                    aria-hidden="true"
-                  />
-                }
-                name="eports"
-                location="/dashboard/reports"
-                amount={0}
-                loading={false}
-                bg_color="bg-cyan-200"
-              />
-              <DashboardCard
-                icon={
-                  <CogIcon
-                    className="h-6 w-6 text-gray-600"
-                    aria-hidden="true"
-                  />
-                }
-                name="Settings"
-                location="/dashboard/settings"
-                amount={"store settings"}
-                loading={false}
-                bg_color="bg-gray-200"
-              />
+              {dashboard_items?.map((item, index) => (
+                <DashboardCard
+                  name={item.name}
+                  icon={item.icon}
+                  location={item.location}
+                  amount={user?.status === 'fetching' ? 'loading...' : item.number}
+                  loading={false}
+                  bg_color={item.bg_color}
+                />
+              ))}
             </div>
           </div>
         </div>
