@@ -70,6 +70,7 @@ function Register() {
         agreed: agreed,
         role: "passenger",
         method: "email",
+        password: password,
         username: username,
       });
       navigate("/login");

@@ -22,7 +22,7 @@ exports.registerUser = async (req, res) => {
   if (method === "google") {
     password = randomUUID();
   }
-  if (password.length < 6) {
+  else if (password.length < 6) {
     return res.status(401).send({ message: "Invalid password" });
   }
 
