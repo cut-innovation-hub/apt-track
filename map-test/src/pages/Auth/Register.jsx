@@ -1,17 +1,18 @@
 import { useToast } from "@chakra-ui/react";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import BlueButton from "../../components/Buttons/BlueButton";
 import GeneralLayout from "../../layouts/GeneralLayout";
 import OrDivider from "../../components/OrDivider/OrDivider";
 import GoogleButton from "../../components/Buttons/GoogleButton";
 import navigator_svg from "../../assets/svgs/navigator1.svg";
 import AuthInput from "../../components/Inputs/AuthInput";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { GoogleAuthProvider, getAuth, signInWithPopup } from "firebase/auth";
 import { firebaseApp } from "../../services/firebase";
 import { getError } from "../../utils/getError";
 import axios from "axios";
 import { apiUrl } from "../../utils/apiUrl";
+import { Store } from "../../context/Store";
 
 function Register() {
   const [email, setEmail] = useState("");
@@ -19,23 +20,59 @@ function Register() {
   const [username, setUsername] = useState("");
   const [agreed, setAgreed] = useState(false);
   const [loading, setLoading] = useState(false);
+  const { dispatch } = useContext(Store);
   const toast = useToast();
   const auth = getAuth(firebaseApp);
   const googleProvider = new GoogleAuthProvider();
+  const navigate = useNavigate();
 
+  // register with google
   const register_With_Google = async () => {
     try {
       setLoading(true);
       const res = await signInWithPopup(auth, googleProvider);
       const user = res.user;
-      await axios.post(`${apiUrl}/api/auth/register`, {
+      const { data } = await axios.post(`${apiUrl}/api/auth/register`, {
         email: user.email,
-        password: "",
         agreed: agreed,
         role: "passenger",
         method: "google",
         username: user.displayName,
       });
+      dispatch({ type: "USER_LOGIN", payload: data });
+      setLoading(false);
+      toast({
+        title: "Account Created",
+        status: "success",
+        position: "top-right",
+        duration: 9000,
+        isClosable: true,
+      });
+      navigate("/map");
+    } catch (error) {
+      setLoading(false);
+      toast({
+        title: getError(error),
+        status: "error",
+        position: "top-right",
+        duration: 9000,
+        isClosable: true,
+      });
+    }
+  };
+
+  // register with credentials
+  const register_With_Credentials = async () => {
+    try {
+      setLoading(true);
+      await axios.post(`${apiUrl}/api/auth/register`, {
+        email: email,
+        agreed: agreed,
+        role: "passenger",
+        method: "email",
+        username: displayName,
+      });
+      navigate("/login");
       toast({
         title: "Account Created",
         status: "success",
@@ -55,8 +92,7 @@ function Register() {
       });
     }
   };
-
-  const login_user_handler = async () => {};
+  
   return (
     <GeneralLayout>
       <div className="max-w-7xl mx-auto w-full">
@@ -87,6 +123,7 @@ function Register() {
             <div className="w-full flex flex-row space-x-2 items-center">
               <BlueButton
                 loading={loading}
+                onClick={register_With_Credentials}
                 text="Sign Up"
                 text_size={"text-lg"}
               />

@@ -6,7 +6,7 @@ const initialState = {
     cart: {
         cartItems: Cookies.get('cartItems') ? JSON.parse(Cookies.get('cartItems')) : []
     },
-    cut_buses_Admin_User: Cookies.get('cut_buses_Admin_User') ? JSON.parse(Cookies.get('cut_buses_Admin_User')) : null,
+    apt_track_User: Cookies.get('apt_track_User') ? JSON.parse(Cookies.get('apt_track_User')) : null,
     search_query: '',
     walking_road_coords: null,
     bus_route_coords: null,
@@ -37,9 +37,9 @@ function reducer(state={search_category:''}, action) {
         case 'CLEAR_CART':
             return {...state, cart: {cartItems: []}}
         case 'USER_LOGIN':
-            return { ...state, cut_buses_Admin_User: action.payload }
+            return { ...state, apt_track_User: action.payload }
         case 'USER_LOGOUT':
-            return { ...state, cut_buses_Admin_User: null, cart: { cartItems: [] } }
+            return { ...state, apt_track_User: null, cart: { cartItems: [] } }
         case 'SET_SEARCH_QUERY':
             return { ...state, search_query: action.payload }
         case 'SET_SEARCH_CATEGORY':

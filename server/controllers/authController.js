@@ -44,8 +44,31 @@ exports.registerUser = async (req, res) => {
       });
 
       //save in database
-      await newUser.save();
-      return res.status(200).send("Account Created");
+      const _user = await newUser.save();
+      const token = await jwt.sign(
+        {
+          name: _user.name,
+          email: _user.email,
+          _id: _user._id,
+          role: _user.role,
+          emailVerified: _user.emailApproved,
+        },
+        process.env.JWT_SECRET
+      );
+      if (token) {
+        const user = {
+          name: _user.name,
+          email: _user.email,
+          _id: _user._id,
+          role: _user.role,
+          emailVerified: _user.emailApproved,
+          token: token,
+        };
+
+        return res.status(200).send({ ...user, message: "Account Created" });
+      } else {
+        return res.status(422).send({ message: "Failed to login, Try again!" });
+      }
     }
   }
 };
