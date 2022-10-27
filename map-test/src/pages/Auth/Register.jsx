@@ -38,6 +38,7 @@ function Register() {
         role: "passenger",
         method: "google",
         username: user.displayName,
+        googleAuthId: user.uid
       });
       dispatch({ type: "USER_LOGIN", payload: data });
       setLoading(false);
@@ -156,7 +157,7 @@ function Register() {
             </div>
 
             <OrDivider />
-            <GoogleButton onClick={register_With_Google} />
+            <GoogleButton loading={loading} onClick={register_With_Google} />
           </div>
           <div className="col-span-1 md:grid hidden items-center content-center justify-center lg:p-16 md:p-12">
             <img

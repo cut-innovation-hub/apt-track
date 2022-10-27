@@ -45,6 +45,10 @@ const userSchema = new mongoose.Schema(
       enum: ["email", "google"],
       default: "email",
     },
+    googleAuthId:{
+      type: String,
+      default: ''
+    },
     username: {
       type: String,
       default: ''
