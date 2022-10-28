@@ -34,7 +34,7 @@ const userSchema = new mongoose.Schema(
     },
     email_key: {
       type: String,
-      default: '',
+      default: "",
     },
     email_key_success: {
       type: String,
@@ -45,14 +45,22 @@ const userSchema = new mongoose.Schema(
       enum: ["email", "google"],
       default: "email",
     },
-    googleAuthId:{
+    googleAuthId: {
       type: String,
-      default: ''
+      default: "",
     },
     username: {
       type: String,
-      default: ''
-    }
+      default: "",
+    },
+    photoURL: {
+      type: String,
+      default: "",
+    },
+    phoneNumber: {
+      type: String,
+      default: "",
+    },
   },
   {
     timestamps: true,

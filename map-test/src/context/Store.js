@@ -37,8 +37,10 @@ function reducer(state={search_category:''}, action) {
         case 'CLEAR_CART':
             return {...state, cart: {cartItems: []}}
         case 'USER_LOGIN':
+            Cookies.set('apt_track_User',  JSON.stringify(action.payload) )
             return { ...state, apt_track_User: action.payload }
         case 'USER_LOGOUT':
+            Cookies.remove('apt_track_User')
             return { ...state, apt_track_User: null, cart: { cartItems: [] } }
         case 'SET_SEARCH_QUERY':
             return { ...state, search_query: action.payload }

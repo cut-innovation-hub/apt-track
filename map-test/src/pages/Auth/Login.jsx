@@ -35,7 +35,7 @@ function Login() {
       dispatch({ type: "USER_LOGIN", payload: data });
       setLoading(false);
       toast({
-        title: "Account Created",
+        title: "Login Successful",
         status: "success",
         position: "top-right",
         duration: 9000,
@@ -63,10 +63,11 @@ function Login() {
         email: user.email,
         googleAuthId: user.uid,
       });
+      console.log(data)
       dispatch({ type: "USER_LOGIN", payload: data });
       setLoading(false);
       toast({
-        title: "Account Created",
+        title: "Login Successful",
         status: "success",
         position: "top-right",
         duration: 9000,

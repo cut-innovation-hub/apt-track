@@ -38,7 +38,9 @@ function Register() {
         role: "passenger",
         method: "google",
         username: user.displayName,
-        googleAuthId: user.uid
+        googleAuthId: user.uid,
+        photoURL: user.photoURL,
+        phoneNumber: user.phoneNumber
       });
       dispatch({ type: "USER_LOGIN", payload: data });
       setLoading(false);

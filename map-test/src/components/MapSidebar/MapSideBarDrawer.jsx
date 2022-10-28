@@ -14,13 +14,13 @@ import {
 import { MenuAlt3Icon } from "@heroicons/react/outline";
 import MapSidebar from "./MapSidebar";
 
-function MapSideBarDrawer() {
+function MapSideBarDrawer({scrollHeight}) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = React.useRef();
   return (
     <>
       <div ref={btnRef} colorScheme="teal" size={'sm'} onClick={onOpen}>
-        <MenuAlt3Icon className="text-gray-700" height={24} width={24} />
+        <MenuAlt3Icon className={`${scrollHeight > 70 ? "text-gray-700 " : "text-white " }`} height={24} width={24} />
       </div>
       <Drawer
         isOpen={isOpen}
