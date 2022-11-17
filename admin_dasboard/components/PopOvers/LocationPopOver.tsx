@@ -4,13 +4,6 @@ import {
     Popover,
     PopoverTrigger,
     PopoverContent,
-    PopoverHeader,
-    PopoverBody,
-    PopoverFooter,
-    PopoverArrow,
-    PopoverCloseButton,
-    PopoverAnchor,
-    useDisclosure,
     IconButton,
     Box,
   } from "@chakra-ui/react";
@@ -38,7 +31,7 @@ const LocationPopOver = ({onOpen, onClose, isOpen}: Props) => {
         closeOnBlur={false}
       >
         <PopoverTrigger>
-          <IconButton size='sm' icon={<PencilIcon />} />
+          <IconButton aria-label='Search database' size='sm' icon={<PencilIcon />} />
         </PopoverTrigger>
         <PopoverContent p={5}>
          <p>Pop Over</p>
