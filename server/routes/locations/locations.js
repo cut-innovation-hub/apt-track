@@ -6,7 +6,7 @@ const router = express.Router();
 // get items from arduino
 router.post("/items", async (req, res) => {
   const { api_key, lng, lat } = req.body;
-  console.log("api  key is ----- ", api_key, lng, lat);
+  console.log("api  key is ----- ", api_key, lng, lat, req.body);
 
   try {
     // if (api_key === "Ad5F10jkBM0") {
@@ -22,7 +22,37 @@ router.post("/items", async (req, res) => {
       console.log("Data saved");
       return res
         .status(200)
-        .send({ message: "Data from gps", data: newTest });
+        .send({ message: "Data from gps", data: newTest, from_api: req.body });
+    // } else {
+    //   console.error("error saving coords");
+    //   return res.status(400).send({ message: "Wrong api key" });
+    // }
+    // console.log(`the data reveies`, req.body)
+  } catch (error) {
+    return res.status(500).send({ message: `${error}` });
+  }
+});
+
+// get items from arduino
+router.post("/from_actual", async (req, res) => {
+  const {field1, field2, api_key} = req.query
+  console.log("api  key is ----- ",api_key,  field1, field2);
+
+  try {
+    // if (api_key === "Ad5F10jkBM0") {
+      const newTest = new Test({
+        longitude: field1,
+        latitude: field2,
+      });
+      // console.log('Data received :----------- ', newTest)
+      const saved_test = await newTest.save();
+      // pulling longitude and latitude from geocoder
+      // const addressInfo = await geocoder.reverse({ lat: lat, lon: lng });
+      global.io.sockets.emit('api-location-info', newTest)
+      console.log("Data saved");
+      return res
+        .status(200)
+        .send({ message: "Data from gps", data: newTest, from_api: req.body });
     // } else {
     //   console.error("error saving coords");
     //   return res.status(400).send({ message: "Wrong api key" });

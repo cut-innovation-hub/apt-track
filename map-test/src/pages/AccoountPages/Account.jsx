@@ -40,6 +40,22 @@ function Account() {
           </div>
         </div>
         <Divider borderColor={"gray.300"} />
+        <div className="grid md:grid-cols-2 w-full grid-cols-1 gap-8">
+          <div className="col-span-1 w-full">
+            <p className="font-semibold text-sm text-gray-700">Display Name</p>
+            <input
+              type="text"
+              className="text-gray-600 border w-full border-gray-200 rounded-lg outline-none p-2"
+            />
+          </div>
+          <div className="col-span-1 w-full">
+            <p className="font-semibold text-sm text-gray-700">Phone Number</p>
+            <input
+              type="text"
+              className="text-gray-600 border w-full border-gray-200 rounded-lg outline-none p-2"
+            />
+          </div>
+        </div>
       </div>
     </GeneralLayout>
   );

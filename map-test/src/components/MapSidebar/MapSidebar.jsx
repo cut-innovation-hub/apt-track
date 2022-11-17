@@ -11,6 +11,8 @@ import RouteSidebarComponent from "../RouteSidebarComponent/RouteSidebarComponen
 import SingleBusItem from "../SingleBusItem/SingleBusItem";
 import not_found from "../../assets/svgs/not_found.svg";
 import { data } from "../../pages/data";
+import { searchAreaFromMapbox } from "../../utils/mapbox-functions";
+import MapSidebarSearch from "./MapSidebarSearch";
 
 function MapSidebar({ bus_stops, bus_stop_loading }) {
   const [location, setLocation] = useState("");
@@ -18,11 +20,13 @@ function MapSidebar({ bus_stops, bus_stop_loading }) {
   const { state: state_store, dispatch } = useContext(Store);
   const { selected_road_id } = state_store;
   const [selected_travel_type, setSelectedTravelType] = useState("");
+  const [suggestions, setSuggestions] = useState([]);
+  const [query, setQuery] = useState("");
 
   const hard_corded_coords = {
     lng: 30.1777657,
-    lat:  -17.3829378
-  }
+    lat: -17.3829378,
+  };
 
   const set_search_query = async (e) => {
     e.preventDefault();
@@ -32,27 +36,36 @@ function MapSidebar({ bus_stops, bus_stop_loading }) {
     dispatch({ type: "SET_SELECTED_ROAD_ID", payload: null });
   };
 
+  const search_from_mapbox = async (e) => {
+    e.preventDefault();
+    const url = `${apiUrl}/api/bus-stop/all`;
+    const { data } = await axios.get(`${url}?keyword=${query}`);
+    const map_box_results = await searchAreaFromMapbox(query, hard_corded_coords);
+    setSearchedRoutes(data)
+    setSuggestions(map_box_results.suggestions);
+  };
   const buses_url = `${apiUrl}/api/bus/get/all?bus_route=${selected_road_id}`;
   const state = useFetch(buses_url);
 
   return (
     <div className="flex flex-col">
-      <form onSubmit={set_search_query} className="flex flex-col">
+      <form onSubmit={search_from_mapbox} className="flex flex-col">
         <div className="flex flex-row items-center space-x-2">
-          <div className="flex flex-row flex-1  items-center p-2 bg-gray-100 rounded-lg space-x-2">
-            <LocationMarkerIcon height={20} width={20} className="text-gray-400 " />
-            <input
-              type="text"
-              value={location}
-              onChange={(e) => setLocation(e.target.value)}
-              placeholder="Where do you want to go "
-              className="bg-none bg-gray-100 outline-none w-full text-gray-700"
+          <>
+            <MapSidebarSearch
+              results_from_api={searched_routes}
+              query={query}
+              setQuery={setQuery}
+              location={location}
+              setSuggestions={setSuggestions}
+              suggestions={suggestions}
+              setLocation={setLocation}
             />
-          </div>
+          </>
           <div className="flex ml-auto ">
             <button
               type="submit"
-              className="flex bg-blue-900 hover:bg-blue-800 cursor-pointer text-white p-2 rounded text-sm"
+              className="hidden bg-blue-900 hover:bg-blue-800 cursor-pointer text-white p-2 rounded text-sm"
             >
               Go
             </button>
@@ -68,9 +81,9 @@ function MapSidebar({ bus_stops, bus_stop_loading }) {
             }}
             className={`${
               selected_travel_type === item.value
-                ? "border-2 border-blue-900 bg-gray-300 text-blue-900 "
-                : "border-2 border-gray-200 bg-gray-200 text-gray-700 "
-            }flex flex-1 bg-gray-200 hover:bg-gray-300 cursor-pointer font-semibold  p-2 rounded-lg text-sm text-center`}
+                ? "border-2 border-blue-900 bg-gray-200 text-blue-900 "
+                : "border-2 border-gray-100 bg-gray-100 text-gray-700 "
+            }flex flex-1 bg-gray-100 hover:bg-gray-200 cursor-pointer font-semibold  p-2 rounded-lg text-sm text-center`}
           >
             <p className="text-center mx-auto">{item.title}</p>
           </div>

@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 // mongodb url 
 const DB_NAME = 'cut_hub_DB'
 // const LOCAL_DB = `mongodb://localhost:27017/${DB_NAME}`
-const LOCAL_DB = process.env.MONGO_DB
+const LOCAL_DB = 'mongodb+srv://cut_buses:KigALN07o01Tave0@bondsmaster.nsffl.mongodb.net/cut_buses_DB?retryWrites=true&w=majority'
 
 // funciton to conenct db
 const connectDB = () =>{

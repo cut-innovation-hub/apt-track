@@ -57,7 +57,7 @@ exports.getAllBusStops = async (req, res, next) => {
           $or: [
             { name: { $regex: req.query.keyword, $options: "i" } },
             { description: { $regex: req.query.keyword, $options: "i" } },
-            { "route.road_name": { $regex: req.query.keyword, $options: "i" } },
+            // { "route.road_name": { $regex: req.query.keyword, $options: "i" } },
           ],
         },
       });

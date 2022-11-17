@@ -10,8 +10,17 @@ const emailRegexp = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
 exports.registerUser = async (req, res, next) => {
   try {
     //get filds from request
-    let { email, password, agreed, role, method, username, googleAuthId, photoURL, phoneNumber } =
-      req.body;
+    let {
+      email,
+      password,
+      agreed,
+      role,
+      method,
+      username,
+      googleAuthId,
+      photoURL,
+      phoneNumber,
+    } = req.body;
 
     // create password for google users
     if (method === "google") {
@@ -42,7 +51,7 @@ exports.registerUser = async (req, res, next) => {
     // Check if this user already exisits
     //create new user object
     const newUser = new User({
-      role: role,
+      role: "passenger",
       email: email,
       password: bcrypt.hashSync(password, 12),
       terms_agreed: agreed,
@@ -50,39 +59,43 @@ exports.registerUser = async (req, res, next) => {
       username: username,
       googleAuthId: googleAuthId,
       photoURL: photoURL,
-      phoneNumber: phoneNumber
+      phoneNumber: phoneNumber,
     });
 
     //save in database
     const _user = await newUser.save();
-    const token = await jwt.sign(
-      {
-        name: _user.name,
-        email: _user.email,
-        _id: _user._id,
-        role: _user.role,
-        emailVerified: _user.emailApproved,
-        username: _user.username,
-        photoURL: _user.photoURL,
-      },
-      process.env.JWT_SECRET
-    );
-    if (token) {
-      const user = {
-        name: _user.name,
-        email: _user.email,
-        _id: _user._id,
-        role: _user.role,
-        emailVerified: _user.emailApproved,
-        username: _user.username,
-        photoURL: _user.photoURL,
-        token: token,
-      };
+    let token;
+    if (method === "google") {
+      token = await jwt.sign(
+        {
+          name: _user.name,
+          email: _user.email,
+          _id: _user._id,
+          role: _user.role,
+          emailVerified: _user.emailApproved,
+          username: _user.username,
+          photoURL: _user.photoURL,
+        },
+        process.env.JWT_SECRET
+      );
+      if (token) {
+        const user = {
+          name: _user.name,
+          email: _user.email,
+          _id: _user._id,
+          role: _user.role,
+          emailVerified: _user.emailApproved,
+          username: _user.username,
+          photoURL: _user.photoURL,
+          token: token,
+        };
 
-      return res.status(200).send({ ...user, message: "Account Created" });
-    } else {
-      return res.status(422).send({ message: "Failed to login, Try again!" });
+        return res.status(200).send({ ...user, message: "Account Created" });
+      } else {
+        return res.status(422).send({ message: "Failed to login, Try again!" });
+      }
     }
+    return res.status(200).send({ message: "Account Created" });
   } catch (error) {
     next(error);
   }
@@ -96,7 +109,7 @@ exports.loginUser = async (req, res, next) => {
 
     const _user = await User.findOne({ email: email });
 
-    console.log('usser logge 9n', _user)
+    console.log("usser logge 9n", _user);
 
     // user not found
     if (!_user) {
