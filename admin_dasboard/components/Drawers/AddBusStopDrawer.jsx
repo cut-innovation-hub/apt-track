@@ -27,18 +27,16 @@ import { getError } from "../../utils/getError";
 import UploadImage from "../UploadComponents/UploadImage";
 import SelectRoadModal from "../Modals/SelectRoadModal";
 
-type Props = {};
-
-function AddBusStopDrawer({}: Props) {
+function AddBusStopDrawer() {
   const { state: store_state } = useContext(Store);
   const { cut_buses_Admin_User } = store_state;
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [longitude, setLongitude] = useState<any>(null);
-  const [latitude, setLatitude] = useState<any>(null);
+  const [longitude, setLongitude] = useState(null);
+  const [latitude, setLatitude] = useState(null);
   const [save_loading, setSaveLoading] = useState(false);
   const [road_name, setRoadName] = useState("");
   const [picture, setPicture] = useState("");
-  const [road, setRoad] = useState<any>();
+  const [road, setRoad] = useState();
 
   const [state, setState] = useState({
     latitude: null,
@@ -80,7 +78,7 @@ function AddBusStopDrawer({}: Props) {
     }
   };
 
-  function handleClick(event: any) {
+  function handleClick(event) {
     // var lngLat = event.lngLat;
     setLatitude(event?.lngLat?.lat);
     setLongitude(event?.lngLat?.lng);
@@ -141,7 +139,7 @@ function AddBusStopDrawer({}: Props) {
             <ReactMapGL
               style={{ width: "100%", height: 600 }}
               onDblClick={handleClick}
-              onMove={(newViewport: any) => {
+              onMove={(newViewport) => {
                 // console.log(newViewport)
                 setState(newViewport.viewState);
               }}
