@@ -8,6 +8,8 @@ const SubscriptionItem = ({
     features,
     heading_icon,
     bg_color,
+  sub_package
+    
   }) => {
       const router = useRouter()
     return (
@@ -82,7 +84,7 @@ const SubscriptionItem = ({
         </div>
         <div className={`${bg_color !== "bg-white" ? "border-blue-700 " : "border-gray-200 " } border-t `}/>
         <div className="flex">
-          <span onClick={() => router.push('/register')} className={`${bg_color === 'bg-white' ? "bg-blue-900 text-white " : "bg-white "} px-2 py-3 text-center w-full font-semibold rounded-lg text-sm capitalize`}>
+          <span onClick={() => router.push(`/payment/${sub_package}`)} className={`${bg_color === 'bg-white' ? "bg-blue-900 text-white " : "bg-white "} px-2 cursor-pointer py-3 text-center w-full font-semibold rounded-lg text-sm capitalize`}>
               Choose Subscription
           </span>
         </div>

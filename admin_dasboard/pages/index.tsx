@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { CurrencyYenIcon } from "@heroicons/react/outline";
 import SubscriptionItem from "../components/SubscriptionItem/SubscriptionItem";
 import {
@@ -8,9 +8,12 @@ import {
 } from "@heroicons/react/solid";
 import { Avatar, Divider } from "@chakra-ui/react";
 import { useRouter } from "next/router";
+import { Store } from "../context/Store";
 
 function login() {
   const router = useRouter();
+  const { state } = useContext(Store);
+  const { cut_buses_Admin_User } = state;
 
   const card_details = [
     {
@@ -29,6 +32,7 @@ function login() {
         <CurrencyYenIcon height={20} width={20} className="text-blue-900" />
       ),
       bg_color: "bg-white",
+      sub_package: 'free'
     },
     {
       small_heading: "Lorem Ipson",
@@ -44,6 +48,7 @@ function login() {
       ],
       heading_icon: <CurrencyYenIcon height={20} width={20} className="" />,
       bg_color: "bg-blue-900",
+      sub_package: 'medium'
     },
     {
       small_heading: "Lorem Ipson",
@@ -59,8 +64,18 @@ function login() {
       ],
       heading_icon: <CurrencyYenIcon height={20} width={20} className="" />,
       bg_color: "bg-white",
+      sub_package: 'premuim'
     },
   ];
+
+  const navigate_to_dasboard = () =>{
+      if (cut_buses_Admin_User?.role !== 'bus_admin') {
+        router.push("/dashboard");
+      }else{
+        router.push("/login");
+      }
+  
+  }
 
   return (
     <div className="flex flex-col w-full bg-gray-100 min-h-screen space-y-4">
@@ -76,7 +91,7 @@ function login() {
 
         <div className="flex flex-row space-x-8 pb-8">
           <div
-            onClick={() => router.push("/login")}
+            onClick={navigate_to_dasboard}
             className="flex flex-row p-4 rounded-xl cursor-pointer bg-white shadow"
           >
             <XCircleIcon height={16} width={16} className="text-red-600" />
@@ -118,6 +133,7 @@ function login() {
                 features={item?.features}
                 heading_icon={item?.heading_icon}
                 bg_color={item?.bg_color}
+                sub_package={item.sub_package}
               />
             ))}
           </div>

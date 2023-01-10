@@ -140,3 +140,19 @@ exports.getAllCompanyDrivers = async (req, res, next) => {
     next(error);
   }
 };
+
+// get a single driver
+// get request
+// /api/driver/single?driver_id=asjkdhflkjashdf
+exports.getSingleDriver = async (req, res, next) => {
+  try {
+    const { driver_id } = req.query;
+    const driver = await Driver.findOne({ _id: driver_id });
+    if (!driver) {
+      return res.status(404).send({ message: "no driver was found" });
+    }
+    return res.status(200).send({ driver: driver, message: "driver found" });
+  } catch (error) {
+    next(error);
+  }
+}

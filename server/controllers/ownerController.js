@@ -44,8 +44,37 @@ exports.registerOwnerAccount = async (req, res) => {
       });
 
       //save in database
-      await newOwner.save();
-      return res.status(200).send("Account Created");
+      const _owner = await newOwner.save();
+
+      const token = await jwt.sign(
+        {
+          email: _owner.email,
+          _id: _owner._id,
+          role: _owner.role,
+          emailVerified: _owner.emailApproved,
+          approved: _owner.approved,
+          name: _owner.company_name,
+          //@ts-ignore
+        },
+        process.env.JWT_SECRET
+      );
+      if (token) {
+        const user = {
+          email: _owner.email,
+          _id: _owner._id,
+          role: _owner.role,
+          emailVerified: _owner.emailApproved,
+          token: token,
+          approved: _owner.approved,
+          name: _owner.company_name,
+        };
+
+        return res.send({ ...user, message: "Logged in sucessfully" });
+      } else {
+        return res
+          .status(422)
+          .send({ message: "Failed to login, Wrong details!" });
+      }
     }
   }
 };
@@ -182,31 +211,31 @@ exports.createAnOwnerAccount = async (req, res) => {
 // /api/owner/details
 // get reuquest
 // requires quth
-exports.getOwnerAccountDetails = async (req, res, next) =>{
+exports.getOwnerAccountDetails = async (req, res, next) => {
   try {
-    const _user = req.user // the logged in user
+    const _user = req.user; // the logged in user
 
     // account info needed
-    let account = await Owner.findOne({_id: _user._id});
+    let account = await Owner.findOne({ _id: _user._id });
 
-
-    const all_buses = await Bus.countDocuments({bus_owner: _user._id})
-    const all_bus_stops = await BusStop.countDocuments({createdBy: _user._id})
-    const all_routes = await Route.countDocuments({createdBy: _user._id})
-    const all_drivers = await Driver.countDocuments({createdBy: _user._id})
+    const all_buses = await Bus.countDocuments({ bus_owner: _user._id });
+    const all_bus_stops = await BusStop.countDocuments({
+      createdBy: _user._id,
+    });
+    const all_routes = await Route.countDocuments({ createdBy: _user._id });
+    const all_drivers = await Driver.countDocuments({ createdBy: _user._id });
 
     return res.status(200).send({
       account: {
         email: account.email,
-        reports: account.reports
+        reports: account.reports,
       },
       all_buses,
       all_bus_stops,
       all_routes,
-      all_drivers
-    })
-
+      all_drivers,
+    });
   } catch (error) {
-    next(error)
+    next(error);
   }
-}
+};

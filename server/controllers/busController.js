@@ -61,6 +61,7 @@ exports.getCompanyBuses = async (req, res, next) => {
   try {
     const _user = req.user; // the logged in company
     // handling store schema
+
     let query = [
       {
         $lookup: {
@@ -70,7 +71,12 @@ exports.getCompanyBuses = async (req, res, next) => {
           as: "route",
         },
       },
-      { $unwind: "$route" },
+      {
+        $unwind: {
+          path: "$route",
+          preserveNullAndEmptyArrays: true,
+        },
+      },
     ];
 
     query.push({
@@ -278,6 +284,22 @@ exports.getAllBuses = async (req, res, next) => {
       },
       all_buses: all_buses,
     });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// get a single bus
+// get request
+// /api/bus/single?bus_id=asjkdhflkjashdf
+exports.getSingleBus = async (req, res, next) => {
+  try {
+    const { bus_id } = req.query;
+    const bus = await Bus.findOne({ _id: bus_id });
+    if (!bus) {
+      return res.status(404).send({ message: "no Bus was found" });
+    }
+    return res.status(200).send({ bus: bus, message: "bus found" });
   } catch (error) {
     next(error);
   }

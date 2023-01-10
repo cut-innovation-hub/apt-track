@@ -1,5 +1,5 @@
 const express = require("express");
-const { createABus, getCompanyBuses, getAllBuses } = require("../../controllers/busController");
+const { createABus, getCompanyBuses, getAllBuses, getSingleBus } = require("../../controllers/busController");
 const { requireBusOwnerSignIn } = require("../../middleware/require_auth");
 const router = express.Router();
 
@@ -17,5 +17,10 @@ router.get("/company/all", requireBusOwnerSignIn, getCompanyBuses);
 // get request
 // /api/bus/get/all
 router.get("/get/all", getAllBuses);
+
+// get a single bus
+// get request
+// /api/bus/single?bus_id=asjkdhflkjashdf
+router.get("/single", getSingleBus);
 
 module.exports = router;

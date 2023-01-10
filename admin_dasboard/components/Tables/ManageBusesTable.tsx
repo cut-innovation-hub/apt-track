@@ -13,6 +13,7 @@ import { useToast } from "@chakra-ui/react";
 import Pagination from "../Pagination/Pagination";
 import DeleteModal from "../Modals/DeleteModal";
 import {deleteFromArray} from '../../utils/deleteFromArray'
+import NotFound from "../NotFound/NotFound";
 
 const PER_PAGE = 8;
 
@@ -71,9 +72,7 @@ const ManageBusesTable = ({
     <div className="flex w-full flex-col">
       <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
         {buses?.length < 1 ? (
-          <p className="text-center text-gray-700 w-full flex-1 capitalize">
-            No Items Found
-          </p>
+          <NotFound />
         ) : (
           <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
             <div className="w-full overflow-hidden border-b border-gray-200 shadow sm:rounded-lg">
@@ -155,13 +154,13 @@ const ManageBusesTable = ({
 
                           <td className="whitespace-nowrap px-6 py-4">
                             <div className="text-sm text-gray-500">
-                              {bus.route.road_name}
+                              {bus.route?.road_name ? bus.route?.road_name : "No Road"}
                             </div>
                           </td>
 
                           <td className="whitespace-nowrap px-6 py-4">
                             <div className="text-sm text-gray-500">
-                              {bus.route.road_length}
+                              {bus.route?.road_length ? bus.route?.road_length : "No Road"}
                             </div>
                           </td>
                           <td className="whitespace-nowrap px-6 py-4">

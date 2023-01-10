@@ -24,13 +24,15 @@ const Buses = () => {
     setBuses(state.data.all_buses);
   }, [state]);
 
+  console.log('all buses ', buses)
+
   return (
     <DashboardLayout>
       <div className="flex flex-col w-full p-8">
         <>
           <DashboardSearch
-            rightButtonOnClick={() => router.push("/dashboard/buses/create")}
-            button_text={"Add A Bus"}
+            rightButtonOnClick={() => router.push("/dashboard/vehicles/create")}
+            button_text={"Add A Vehicle"}
             setSearchQuery={setSearchQuery}
             placeholder="Search driver, registration number, description etc"
           />

@@ -1,11 +1,27 @@
 import React, { ReactElement, useState } from "react";
-import { TrashIcon, PencilIcon } from "@heroicons/react/outline";
-import { useDisclosure, Avatar, Spinner } from "@chakra-ui/react";
+import Image from "next/image";
+import {
+  TrashIcon,
+  PencilIcon,
+  ChevronDownIcon,
+} from "@heroicons/react/outline";
+import {
+  useDisclosure,
+  Avatar,
+  Spinner,
+  Menu,
+  MenuButton,
+  Button,
+  MenuList,
+  MenuItem,
+} from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useToast } from "@chakra-ui/react";
 import { deleteFromArray } from "../../utils/deleteFromArray";
 import DeleteModal from "../Modals/DeleteModal";
 import Pagination from "../Pagination/Pagination";
+import not_found from "../../public/svgs/not_found.svg";
+import NotFound from "../NotFound/NotFound";
 
 const PER_PAGE = 8;
 
@@ -65,9 +81,7 @@ function ManageDrivers({
     <div className="flex w-full flex-col">
       <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
         {drivers?.length < 1 ? (
-          <p className="text-center text-gray-700 w-full flex-1 capitalize">
-            No Items Found
-          </p>
+          <NotFound />
         ) : (
           <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
             <div className="w-full overflow-hidden border-b border-gray-200 shadow sm:rounded-lg">
@@ -186,32 +200,35 @@ function ManageDrivers({
                           </td>
                           <td className="whitespace-nowrap px-6 py-4 text-right text-sm font-medium">
                             <div className="flex flex-row items-center space-x-2">
-                              <span
-                                onClick={() =>
-                                  set_delete_item(driver._id, driver.name)
-                                }
-                                className="cursor-pointer"
-                              >
-                                <TrashIcon
-                                  height={20}
-                                  width={20}
-                                  className="text-red-400 "
-                                />
-                              </span>
-                              <span
-                                onClick={() =>
-                                  router.push(
-                                    `/dashboard/inventory/edit/${"product?._id"}`
-                                  )
-                                }
-                                className="cursor-pointer"
-                              >
-                                <PencilIcon
-                                  height={20}
-                                  width={20}
-                                  className="cursor-pointer text-gray-500"
-                                />
-                              </span>
+                              <div className="flex flex-row items-center space-x-2">
+                                <Menu size={"xs"}>
+                                  <MenuButton
+                                    as={Button}
+                                    rightIcon={
+                                      <ChevronDownIcon height={16} width={16} />
+                                    }
+                                  >
+                                    Actions
+                                  </MenuButton>
+                                  <MenuList>
+                                    <MenuItem
+                                      onClick={() =>
+                                        set_delete_item(
+                                          driver._id,
+                                          driver.plate_number
+                                        )
+                                      }
+                                    >
+                                      Delete
+                                    </MenuItem>
+                                    <MenuItem onClick={() =>
+                                router.push(
+                                  `/dashboard/drivers/single/${driver._id}`
+                                )
+                              }>Edit Details</MenuItem>
+                                  </MenuList>
+                                </Menu>
+                              </div>
                             </div>
                           </td>
                         </tr>

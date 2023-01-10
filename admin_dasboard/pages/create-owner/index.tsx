@@ -19,14 +19,6 @@ function CreateOwner() {
   const { state, dispatch } = useContext(Store);
   const { cut_buses_Admin_User } = state;
 
-  useEffect(() => {
-    if (cut_buses_Admin_User?.role !== 'bus_admin') {
-      history.push("/login");
-    }
-  }, []);
-
-  console.log(cut_buses_Admin_User)
-
   const create_an_owner_accont = async () => {
     setLoading(true);
     try {
@@ -50,7 +42,7 @@ function CreateOwner() {
       });
       setTimeout(() => {
         //@ts-ignore
-        history.push("/");
+        history.push("/dashboard");
       }, 1000);
       setLoading(false);
       toast({
